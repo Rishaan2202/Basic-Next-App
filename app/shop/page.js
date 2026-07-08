@@ -3,8 +3,8 @@ import React from 'react'
 const Dashboard = () => {
   return (
     <div>
-      <h1>About</h1>
-      <p>Welcome to the about page!</p>
+      <h1>Shop</h1>
+      <p>Welcome to the shop!</p>
     </div>
   )
 }
