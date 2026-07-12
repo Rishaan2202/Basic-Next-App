@@ -6,6 +6,20 @@ export const metadata = {
   description: "This is a basic NEXT.js app",
 };
 
+const users = [
+  { id: 1, name: "Rishaan", projects: ["Project 1", "Project 2"], Balance: 1000 },
+  { id: 2, name: "John", projects: ["Project 3"], Balance: 1500 },
+  { id: 3, name: "Jane", projects: ["Project 4", "Project 5"], Balance: 2000 },
+];
+
+const shopItems = [
+  { id: 1, name: "Item 1", price: 10 },
+  { id: 2, name: "Item 2", price: 20 },
+  { id: 3, name: "Item 3", price: 30 },
+];
+
+export { users, shopItems };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
