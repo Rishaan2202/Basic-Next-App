@@ -1,6 +1,6 @@
 import React from 'react'
-import { users } from '../data/users'
-import { shopItems } from '../data/items'
+import { users } from '../../data/users'
+import { shopItems } from '../../data/items'
 import BuyBtn from './buyBtn'
 
 const handlePurchase = (item) => {

@@ -7,6 +7,7 @@ export default function Page() {
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
   return <>
+    <h1 className="text-3xl font-bold text-white mx-4 mt-4">Rishaan</h1>
     <button><Link href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email`}>Login</Link></button>
   </>
 }

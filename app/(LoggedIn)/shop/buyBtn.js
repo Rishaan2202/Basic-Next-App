@@ -1,8 +1,8 @@
 "use client"
 
 import React from 'react'
-import { users } from "../data/users"
-import { shopItems } from "../data/items"
+import { users } from "../../data/users"
+import { shopItems } from "../../data/items"
 
 const handlePurchase = (item) => {
   console.log(`You have purchased ${item.name} for $${item.price}!`);

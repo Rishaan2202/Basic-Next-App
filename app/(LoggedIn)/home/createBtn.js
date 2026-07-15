@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { users } from "../data/users"
+import { users } from "../../data/users"
 
 const handleProjectCreation = () => {
   console.log("New project created!");
@@ -9,7 +9,7 @@ const handleProjectCreation = () => {
 }
 
 
-const createBtn = () => {
+const CreateBtn = () => {
   return (
     <div>
       <button onClick={handleProjectCreation}>Create Project</button>
@@ -17,4 +17,4 @@ const createBtn = () => {
   )
 }
 
-export default createBtn
+export default CreateBtn
