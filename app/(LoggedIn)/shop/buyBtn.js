@@ -1,19 +1,22 @@
 "use client"
 
 import React from 'react'
-import { users } from "../../data/users"
-import { shopItems } from "../../data/items"
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-const handlePurchase = (item) => {
-  console.log(`You have purchased ${item.name} for $${item.price}!`);
-  // Implementation for purchasing an item
-}
+const BuyBtn = ({ item, onPurchase }) => {
+  const router = useRouter()
 
+  const handlePurchase = (item) => {
+    const queryString = new URLSearchParams({ itemId: item.id, name: item.name, price: item.price }).toString();
+    console.log(`You have purchased ${item.name} for $${item.price}!`);
+    router.push(`/shop/buy?${queryString}`);
+    // Implementation for purchasing an item
+  }
 
-const BuyBtn = (item) => {
   return (
-    <div>
-      <button onClick={() => handlePurchase(item)}>Buy</button>
+    <div className="absolute left-50 top-20">
+      <button onClick={handlePurchase}>Buy</button>
     </div>
   )
 }

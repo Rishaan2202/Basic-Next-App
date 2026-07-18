@@ -15,7 +15,7 @@ const CreateProject = () => {
     }
 
     return (
-        <div>
+        <div className="absolute left-50 top-20">
             <h1>Create a New Project</h1>
 
             <div id='formNameInput'>

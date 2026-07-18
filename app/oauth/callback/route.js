@@ -41,6 +41,7 @@ export async function GET(request) {
             return NextResponse.json({ error: "Failed to fetch user data", details: userData }, { status: 500 });
         }
 
+        console.log(userData);
         return NextResponse.redirect("http://localhost:3000/home");
     }
     catch (error) {

@@ -1,25 +1,29 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import { users } from '../../data/users'
 import { shopItems } from '../../data/items'
 import BuyBtn from './buyBtn'
-
-const handlePurchase = (item) => {
-  console.log(`You have purchased ${item.name} for $${item.price}!`);
-  // Implementation for purchasing an item
-}
+import { useRouter } from 'next/navigation'
 
 const Shop = () => {
+
+  const [currentItem, setCurrentItem] = useState("")
+  const router = useRouter()
+
   return (
-    <div>
+    <div className="absolute left-50 top-20">
       <h1>Shop</h1>
       <p>Welcome to the shop!</p>
-      <div>
+      <div className='bg-sky-200 p-4 rounded-lg'>
         {shopItems.map((item) => (
-          <div key={item.id}>
+          <div key={item.id} className='bg-sky-600 p-4 rounded-lg'>
             <h2>{item.name}</h2>
             <h4>Description: {item.description}</h4>
             <p>Price: ${item.price}</p>
-            <BuyBtn item={item} />
+            <div className='mt-4'>
+              <BuyBtn item={item}/>
+            </div>
           </div>
         ))}
       </div>
