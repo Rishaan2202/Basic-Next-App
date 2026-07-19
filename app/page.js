@@ -8,6 +8,6 @@ export default function Page() {
 
   return <>
     <h1 className="text-3xl font-bold text-white mx-4 mt-4">Rishaan</h1>
-    <button><Link href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email`}>Login</Link></button>
+    <button><Link href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
   </>
 }
