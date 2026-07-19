@@ -59,6 +59,28 @@ export async function GET(request) {
         console.log(userData);
         users.push(new User(userData.identity.id, userData.identity.first_name + " " + userData.identity.last_name, 0, userData.identity.primary_email, userData.identity.slack_id, userData.identity.verification_status, userData.identity.ysws_eligible, []));
         console.log("Updated users array:", users);
+
+    try {
+        const tokenResponse = await fetch(`https://slack.com/api/users.info?user=${userData.identity.slack_id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${process.env.SLACK_ACCESS_TOKEN}`,
+            }
+        });
+
+        const tokenData = await tokenResponse.json();
+
+        if (!tokenResponse.ok) {
+            return NextResponse.json({ error: "Failed to exchange code for token", details: tokenData }, { status: 500 });
+        }
+
+        console.log("Slack API response:", tokenData);
+
+    }
+    catch (error) {
+        return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
+    }
+
         return NextResponse.redirect("http://localhost:3000/home");
     }
     catch (error) {
