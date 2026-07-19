@@ -2,12 +2,17 @@ import { NextResponse } from "next/server";
 import { users } from "../../data/users";
 
 class User {
-  constructor(id, name, projects, balance, email) {
+  constructor(id, name, projects, balance, email, slackID, verificationStatus, yswsEligible, address) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.projects = projects;
     this.balance = balance;
+    this.slackID = slackID;
+    this.verificationStatus = verificationStatus;
+    this.yswsEligible = yswsEligible;
+    this.projects = projects;
+    this.address = address; // Add address property
+    this.purchaseHistory = []; // Initialize purchase history as an empty array
   }
 }
 
@@ -52,7 +57,7 @@ export async function GET(request) {
         }
 
         console.log(userData);
-        users.push(new User(users.length + 1, userData.identity.first_name + " " + userData.identity.last_name, [], 0, userData.identity.primary_email));
+        users.push(new User(userData.identity.id, userData.identity.first_name + " " + userData.identity.last_name, 0, userData.identity.primary_email, userData.identity.slack_id, userData.identity.verification_status, userData.identity.ysws_eligible, []));
         console.log("Updated users array:", users);
         return NextResponse.redirect("http://localhost:3000/home");
     }
