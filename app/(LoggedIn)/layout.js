@@ -1,12 +1,18 @@
 import "@/app/globals.css";
 import Link from 'next/link';
+import { users } from '../data/users';
+import { cookies } from "next/headers";
+import { getCurrentUser } from "../data/currentUser";
 
 export const metadata = {
   title: "Basic Next App",
   description: "This is a basic NEXT.js app",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+  const currentUser = await getCurrentUser();
+
   return (
     <html lang="en">
       <body className="bg-sky-500 min-h-full flex flex-col">
@@ -18,7 +24,14 @@ export default function RootLayout({ children }) {
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
         </div>
-      </body>
+        {currentUser && (
+          <img
+            src={currentUser.pfp}
+            alt="Profile"
+            className="absolute top-15 right-2 w-10 h-10 rounded-full"
+          />
+        )}
+        </body>
     </html>
   );
 }
