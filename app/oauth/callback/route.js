@@ -3,7 +3,7 @@ import { users } from "../../data/users";
 import { cookies } from "next/headers";
 
 class User {
-  constructor(id, name, projects, balance, email, slackID, verificationStatus, yswsEligible, address, pfp) {
+  constructor(id, name, projects, balance, email, slackID, verificationStatus, yswsEligible, address, pfp, srNo, slackDetails) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -14,6 +14,8 @@ class User {
     this.projects = projects;
     this.address = address; // Add address property
     this.pfp = pfp; // Sync pfp from Slack API
+    this.srNo = srNo; // Serial no. of the user in the users array
+    this.slackDetails = slackDetails; // Store Slack API response details
     this.purchaseHistory = []; // Initialize purchase history as an empty array
   }
 }
@@ -75,11 +77,13 @@ export async function GET(request) {
         }
 
         console.log(userData);
-        users.push(new User(userData.identity.id, userData.identity.first_name + " " + userData.identity.last_name, 0, userData.identity.primary_email, userData.identity.slack_id, userData.identity.verification_status, userData.identity.ysws_eligible, [], null, tokenData.user.profile.image_original));
+        const newUser = new User(userData.identity.id, userData.identity.first_name + " " + userData.identity.last_name, 0, userData.identity.primary_email, userData.identity.slack_id, userData.identity.verification_status, userData.identity.ysws_eligible, [], null, tokenData.user.profile.image_original, users.length, tokenData);
+        users.push(newUser);
         console.log("Updated users array:", users);
         console.log("Slack API response:", tokenData);
 
         cookieStore.set("userId", userData.identity.id);
+        cookieStore.set("userSrNo", newUser.srNo);
         const userPfp = tokenData.user.profile.image_original;
 
     }
@@ -87,7 +91,7 @@ export async function GET(request) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
     }
 
-        return NextResponse.redirect("http://localhost:3000/home");
+        return NextResponse.redirect("http://localhost:3000/" + users.length + "/home");
     }
     catch (error) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
