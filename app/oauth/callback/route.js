@@ -1,28 +1,7 @@
 import { NextResponse } from "next/server";
 import { users } from "../../data/users";
-import { cookies } from "next/headers";
-
-class User {
-  constructor(id, name, projects, balance, email, slackID, verificationStatus, yswsEligible, address, pfp, srNo, slackDetails) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.balance = balance;
-    this.slackID = slackID;
-    this.verificationStatus = verificationStatus;
-    this.yswsEligible = yswsEligible;
-    this.projects = projects;
-    this.address = address; // Add address property
-    this.pfp = pfp; // Sync pfp from Slack API
-    this.srNo = srNo; // Serial no. of the user in the users array
-    this.slackDetails = slackDetails; // Store Slack API response details
-    this.purchaseHistory = []; // Initialize purchase history as an empty array
-  }
-}
 
 export async function GET(request) {
-
-    const cookieStore = await cookies();
 
     const { searchParams } = new URL(request.url);
     console.log("All incoming URL params:", Object.fromEntries(searchParams));
@@ -32,7 +11,11 @@ export async function GET(request) {
         return NextResponse.json({ error: "Missing code parameter" }, { status: 400 });
     }
     try {
-        const tokenResponse = await fetch("https://auth.hackclub.com/oauth/token", {
+
+        /* OAuth Flow */
+
+        // Exchange the code for an access token
+        const authResponse = await fetch("https://auth.hackclub.com/oauth/token", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -44,14 +27,15 @@ export async function GET(request) {
             }),
         });
 
-        const tokenData = await tokenResponse.json();
+        const authData = await authResponse.json();
 
-        if (!tokenResponse.ok) {
-            return NextResponse.json({ error: "Failed to exchange code for token", details: tokenData }, { status: 500 });
+        if (!authResponse.ok) {
+            return NextResponse.json({ error: "Failed to exchange code for token", details: authData }, { status: 500 });
         }
 
+        // Fetch User Data
         const userResponse = await fetch("https://auth.hackclub.com/api/v1/me", {
-            headers: { 'Authorization': `Bearer ${tokenData.access_token}` },
+            headers: { 'Authorization': `Bearer ${authData.access_token}` },
         });
 
         const userData = await userResponse.json();
@@ -62,36 +46,52 @@ export async function GET(request) {
             return NextResponse.json({ error: "Failed to fetch user data", details: userData }, { status: 500 });
         }
 
-    try {
-        const tokenResponse = await fetch(`https://slack.com/api/users.info?user=${userData.identity.slack_id}`, {
+        /* Slack API Integration */
+        const slackResponse = await fetch(`https://slack.com/api/users.info?user=${userData.identity.slack_id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${process.env.SLACK_ACCESS_TOKEN}`,
             }
         });
 
-        const tokenData = await tokenResponse.json();
+        const slackData = await slackResponse.json();
 
-        if (!tokenResponse.ok) {
-            return NextResponse.json({ error: "Failed to exchange code for token", details: tokenData }, { status: 500 });
+        if (!slackResponse.ok) {
+            return NextResponse.json({ error: "Failed to fetch Slack user data", details: slackData }, { status: 500 });
         }
 
+        // Create or Update User in Memory
         console.log(userData);
-        const newUser = new User(userData.identity.id, userData.identity.first_name + " " + userData.identity.last_name, 0, userData.identity.primary_email, userData.identity.slack_id, userData.identity.verification_status, userData.identity.ysws_eligible, [], null, tokenData.user.profile.image_original, users.length, tokenData);
-        users.push(newUser);
+        const newUser = {
+            id: userData.identity.id,
+            name: userData.identity.first_name + " " + userData.identity.last_name,
+            projects: 0,
+            email: userData.identity.primary_email,
+            slackID: userData.identity.slack_id,
+            verificationStatus: userData.identity.verification_status,
+            yswsEligible: userData.identity.ysws_eligible,
+            activity: [],
+            address: null,
+            pfp: slackData.user.profile.image_original,
+            srNo: users.length,
+            slackDetails: slackData
+        };
+
+        const existingUser = users.find(user => user.id === newUser.id);
+
+        if (existingUser) {
+            console.log("User already exists. Updating existing user data.");
+            Object.assign(existingUser, newUser);
+        } else {
+            users.push(newUser);
+        }
+
         console.log("Updated users array:", users);
-        console.log("Slack API response:", tokenData);
+        console.log("Slack API response:", slackData);
 
-        cookieStore.set("userId", userData.identity.id);
-        cookieStore.set("userSrNo", newUser.srNo);
-        const userPfp = tokenData.user.profile.image_original;
-
-    }
-    catch (error) {
-        return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
-    }
-
-        return NextResponse.redirect("http://localhost:3000/" + users.length + "/home");
+        return NextResponse.redirect(
+            new URL("/home", request.url)
+        );
     }
     catch (error) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
