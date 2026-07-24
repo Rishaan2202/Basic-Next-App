@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { users } from "../../data/users";
+import { cookies } from "next/headers";
+import { getDatabase } from "@/lib/mongodb";
 
 export async function GET(request) {
+
+    const cookieStore = await cookies();
+    const db = await getDatabase();
 
     const { searchParams } = new URL(request.url);
     console.log("All incoming URL params:", Object.fromEntries(searchParams));
@@ -62,32 +67,44 @@ export async function GET(request) {
 
         // Create or Update User in Memory
         console.log(userData);
-        const newUser = {
-            id: userData.identity.id,
-            name: userData.identity.first_name + " " + userData.identity.last_name,
-            projects: 0,
-            email: userData.identity.primary_email,
-            slackID: userData.identity.slack_id,
-            verificationStatus: userData.identity.verification_status,
-            yswsEligible: userData.identity.ysws_eligible,
-            activity: [],
-            address: null,
-            pfp: slackData.user.profile.image_original,
-            srNo: users.length,
-            slackDetails: slackData
-        };
 
-        const existingUser = users.find(user => user.id === newUser.id);
 
-        if (existingUser) {
-            console.log("User already exists. Updating existing user data.");
-            Object.assign(existingUser, newUser);
-        } else {
-            users.push(newUser);
-        }
+        await db.collection("userData").updateOne(
+            {
+                user: userData.identity.id
+            },
+            {
+                $set: {
+                    name: userData.identity.first_name + " " + userData.identity.last_name,
+                    projects: 0,
+                    email: userData.identity.primary_email,
+                    slackID: userData.identity.slack_id,
+                    verificationStatus: userData.identity.verification_status,
+                    yswsEligible: userData.identity.ysws_eligible,
+                    activity: [],
+                    address: null,
+                    pfp: slackData.user.profile.image_original,
+                    srNo: users.length,
+                    slackDetails: slackData
+                }
+            },
+            {
+                upsert: true
+            }
+        );
+
 
         console.log("Updated users array:", users);
         console.log("Slack API response:", slackData);
+
+        cookieStore.set("userId", userData.identity.id, {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24 * 7,
+        });
+
+        console.log("User ID stored in cookie:", userData.identity.id);
 
         return NextResponse.redirect(
             new URL("/home", request.url)

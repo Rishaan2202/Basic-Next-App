@@ -1,6 +1,7 @@
 import "@/app/globals.css";
 import Link from 'next/link';
 import { users } from '../data/users';
+import { cookies } from 'next/headers'
 
 export const metadata = {
   title: "Basic Next App",
@@ -9,7 +10,20 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 
+  const cookieStore = await cookies();
+
+  const userId = cookieStore.get("userId")?.value;
+  console.log("Retrieved user ID from cookie:", userId);
+
+  const currentUser = users.find(
+    user => user.id === userId
+  )
+
+  console.log(users)
+  console.log(currentUser ? "Current user found:" : "No current user found.", currentUser);
+
   return (
+    <>
     <html lang="en">
       <body className="bg-sky-500 min-h-full flex flex-col">
         {children}
@@ -20,8 +34,9 @@ export default async function RootLayout({ children }) {
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
         </div>
-          <img src="#" alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
+          <img src={currentUser?.pfp} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
         </body>
     </html>
+    </>
   );
 }
