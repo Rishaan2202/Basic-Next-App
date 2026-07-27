@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import Link from 'next/link';
 import { users } from '../data/users';
 import { cookies } from 'next/headers'
+import { getDatabase } from "@/lib/mongodb";
 
 export const metadata = {
   title: "Basic Next App",
@@ -9,6 +10,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+
+  const db = await getDatabase();
 
   const cookieStore = await cookies();
 
@@ -22,6 +25,17 @@ export default async function RootLayout({ children }) {
   console.log(users)
   console.log(currentUser ? "Current user found:" : "No current user found.", currentUser);
 
+  const pfpDoc = userId 
+    ? await db.collection("userData").findOne(
+        { user: userId }, 
+        { projection: { pfp: 1 } }
+      ) 
+    : null;
+  console.log("Profile picture document fetched from MongoDB:", pfpDoc);
+
+  const pfpUrl = pfpDoc?.pfp || "/default-pfp.png"; // Fallback to a default profile picture if none is found
+  console.log("Profile picture URL to be used:", pfpUrl);
+
   return (
     <>
     <html lang="en">
@@ -34,7 +48,7 @@ export default async function RootLayout({ children }) {
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
           <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
         </div>
-          <img src={currentUser?.pfp} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
+          <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
         </body>
     </html>
     </>

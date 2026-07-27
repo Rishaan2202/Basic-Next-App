@@ -8,6 +8,8 @@ export async function GET(request) {
     const cookieStore = await cookies();
     const db = await getDatabase();
 
+    console.log(request.url);
+
     const { searchParams } = new URL(request.url);
     console.log("All incoming URL params:", Object.fromEntries(searchParams));
     const code = searchParams.get("code");
@@ -15,6 +17,7 @@ export async function GET(request) {
     if (!code) {
         return NextResponse.json({ error: "Missing code parameter" }, { status: 400 });
     }
+    
     try {
 
         /* OAuth Flow */
@@ -73,6 +76,7 @@ export async function GET(request) {
             {
                 user: userData.identity.id
             },
+        
             {
                 $set: {
                     name: userData.identity.first_name + " " + userData.identity.last_name,
@@ -106,9 +110,7 @@ export async function GET(request) {
 
         console.log("User ID stored in cookie:", userData.identity.id);
 
-        return NextResponse.redirect(
-            new URL("/home", request.url)
-        );
+        return NextResponse.redirect(`https://hackatime.hackclub.com/oauth/authorize?client_id=${process.env.HACKATIME_UID}&redirect_uri=${process.env.NEXT_PUBLIC_HACKATIME_REDIRECT_URI}&response_type=code&scope=profile+read`);
     }
     catch (error) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
