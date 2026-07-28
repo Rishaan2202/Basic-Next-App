@@ -50,6 +50,8 @@ export async function GET(request) {
 
         if (!hackatimeUserResponse.ok) {
             return NextResponse.json({ error: "Failed to fetch Hackatime user data", details: hackatimeUserData }, { status: 500 });
+        } else {
+            return NextResponse.json({ message: "Hackatime OAuth flow completed successfully", user: hackatimeUserData }, { status: 200 });
         }
     }
     catch (error) {
