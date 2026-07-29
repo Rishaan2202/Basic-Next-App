@@ -17,7 +17,7 @@ export async function GET(request) {
     if (!code) {
         return NextResponse.json({ error: "Missing code parameter" }, { status: 400 });
     }
-    
+
     try {
 
         /* OAuth Flow */
@@ -71,31 +71,57 @@ export async function GET(request) {
         // Create or Update User in Memory
         console.log(userData);
 
+        const existingUser = await db.collection("userData").findOne({ user: userData.identity.id });
 
-        await db.collection("userData").updateOne(
-            {
-                user: userData.identity.id
-            },
-        
-            {
-                $set: {
-                    name: userData.identity.first_name + " " + userData.identity.last_name,
-                    projects: 0,
-                    email: userData.identity.primary_email,
-                    slackID: userData.identity.slack_id,
-                    verificationStatus: userData.identity.verification_status,
-                    yswsEligible: userData.identity.ysws_eligible,
-                    activity: [],
-                    address: null,
-                    pfp: slackData.user.profile.image_original,
-                    srNo: users.length,
-                    slackDetails: slackData
+        if (existingUser) {
+            await db.collection("userData").updateOne(
+                {
+                    user: userData.identity.id
+                },
+                {
+                    $set: {
+                        name: userData.identity.first_name + " " + userData.identity.last_name,
+                        projects: 0,
+                        email: userData.identity.primary_email,
+                        slackID: userData.identity.slack_id,
+                        verificationStatus: userData.identity.verification_status,
+                        yswsEligible: userData.identity.ysws_eligible,
+                        activity: [`OAuth Successful`],
+                        address: null,
+                        pfp: slackData.user.profile.image_original,
+                        srNo: users.length,
+                        slackDetails: slackData,
+                        hackatime_data: []
+                    }
+                },
+                {
+                    upsert: true
                 }
-            },
-            {
-                upsert: true
-            }
-        );
+        )
+        }
+
+        else {
+
+            await db.collection("userData").insertOne(
+                
+                     {
+                        user: userData.identity.id,
+                        name: userData.identity.first_name + " " + userData.identity.last_name,
+                        projects: 0,
+                        email: userData.identity.primary_email,
+                        slackID: userData.identity.slack_id,
+                        verificationStatus: userData.identity.verification_status,
+                        yswsEligible: userData.identity.ysws_eligible,
+                        activity: ["Successfull Login"],
+                        address: null,
+                        pfp: slackData.user.profile.image_original,
+                        srNo: users.length,
+                        slackDetails: slackData,
+                        hackatime_data: []
+                    
+                },
+            );
+        }
 
 
         console.log("Updated users array:", users);

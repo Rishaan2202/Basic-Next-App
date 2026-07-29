@@ -1,7 +1,7 @@
 import "@/app/globals.css";
 import Link from 'next/link';
 import { users } from '../data/users';
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 import { getDatabase } from "@/lib/mongodb";
 
 export const metadata = {
@@ -12,7 +12,6 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 
   const db = await getDatabase();
-
   const cookieStore = await cookies();
 
   const userId = cookieStore.get("userId")?.value;

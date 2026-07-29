@@ -9,6 +9,9 @@ export async function GET(request) {
     const cookieStore = await cookies();
     const db = await getDatabase();
 
+    const userId = cookieStore.get("userId")?.value;
+    console.log("Retrieved user ID for hackatime purpose:", userId);
+
     const { searchParams } = new URL(request.url);
     console.log("All incoming URL params:", Object.fromEntries(searchParams));
     const code = searchParams.get("code");
@@ -48,10 +51,19 @@ export async function GET(request) {
 
         console.log("Hackatime user data fetched:", hackatimeUserData);
 
+            await db.collection("userData").updateOne(
+                { user: userId },
+                { $set: { hackatime_data: hackatimeUserData } },
+            );
+
         if (!hackatimeUserResponse.ok) {
             return NextResponse.json({ error: "Failed to fetch Hackatime user data", details: hackatimeUserData }, { status: 500 });
         } else {
-            return NextResponse.json({ message: "Hackatime OAuth flow completed successfully", user: hackatimeUserData }, { status: 200 });
+            await db.collection("userData").updateOne(
+                { user: userId },
+                { $push: { activity: `Hackatime Linked` } }
+            );
+            return NextResponse.redirect(`http://localhost:3000/home`);
         }
     }
     catch (error) {
