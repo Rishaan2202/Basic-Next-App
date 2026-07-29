@@ -81,44 +81,46 @@ export async function GET(request) {
                 {
                     $set: {
                         name: userData.identity.first_name + " " + userData.identity.last_name,
-                        projects: 0,
                         email: userData.identity.primary_email,
-                        slackID: userData.identity.slack_id,
-                        verificationStatus: userData.identity.verification_status,
-                        yswsEligible: userData.identity.ysws_eligible,
-                        activity: [`OAuth Successful`],
+                        slack_id: userData.identity.slack_id,
+                        verification_status: userData.identity.verification_status,
+                        ysws_eligible: userData.identity.ysws_eligible,
                         address: null,
-                        pfp: slackData.user.profile.image_original,
-                        srNo: users.length,
-                        slackDetails: slackData,
+                        event_details: {
+                            pfp: slackData.user.profile.image_original,
+                            projects: 0,
+                            activity: ["Successfull Login"]
+                        },
+                        slack_details: slackData,
                         hackatime_data: []
                     }
                 },
                 {
                     upsert: true
                 }
-        )
+            )
         }
 
         else {
 
             await db.collection("userData").insertOne(
-                
-                     {
-                        user: userData.identity.id,
-                        name: userData.identity.first_name + " " + userData.identity.last_name,
-                        projects: 0,
-                        email: userData.identity.primary_email,
-                        slackID: userData.identity.slack_id,
-                        verificationStatus: userData.identity.verification_status,
-                        yswsEligible: userData.identity.ysws_eligible,
-                        activity: ["Successfull Login"],
-                        address: null,
+
+                {
+                    user: userData.identity.id,
+                    name: userData.identity.first_name + " " + userData.identity.last_name,
+                    email: userData.identity.primary_email,
+                    slack_id: userData.identity.slack_id,
+                    verification_status: userData.identity.verification_status,
+                    ysws_eligible: userData.identity.ysws_eligible,
+                    address: null,
+                    event_details: {
                         pfp: slackData.user.profile.image_original,
-                        srNo: users.length,
-                        slackDetails: slackData,
-                        hackatime_data: []
-                    
+                        projects: 0,
+                        activity: ["Successfull Login"]
+                    },
+                    slack_details: slackData,
+                    hackatime_data: []
+
                 },
             );
         }
