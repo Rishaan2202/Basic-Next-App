@@ -8,6 +8,7 @@ export async function GET(request) {
 
     const cookieStore = await cookies();
     const db = await getDatabase();
+    const now = new Date;
 
     const userId = cookieStore.get("userId")?.value;
     console.log("Retrieved user ID for hackatime purpose:", userId);
@@ -61,7 +62,7 @@ export async function GET(request) {
         } else {
             await db.collection("userData").updateOne(
                 { user: userId },
-                { $push: { activity: `Hackatime Linked` } }
+                { $push: { "event_details.activity.public": {message: "Hackatime Linked", timestamp: now}} }
             );
             return NextResponse.redirect(`http://localhost:3000/home`);
         }

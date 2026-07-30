@@ -7,6 +7,7 @@ export async function GET(request) {
 
     const cookieStore = await cookies();
     const db = await getDatabase();
+    const now = new Date;
 
     console.log(request.url);
 
@@ -89,7 +90,10 @@ export async function GET(request) {
                         event_details: {
                             pfp: slackData.user.profile.image_original,
                             projects: {},
-                            activity: ["Successfull Login"]
+                            activity: {
+                                public: [{message: "Successfull Login", timestamp: now}],
+                                confidential: []
+                            }
                         },
                         slack_details: slackData,
                         hackatime_data: []
@@ -116,7 +120,10 @@ export async function GET(request) {
                     event_details: {
                         pfp: slackData.user.profile.image_original,
                         projects: {},
-                        activity: ["Successfull Login"]
+                        activity: {
+                            public: {message: "Successfull Login", timestamp: now},
+                            confidential: []
+                        }
                     },
                     slack_details: slackData,
                     hackatime_data: []
