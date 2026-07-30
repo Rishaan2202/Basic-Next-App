@@ -88,7 +88,7 @@ export async function GET(request) {
                         address: null,
                         event_details: {
                             pfp: slackData.user.profile.image_original,
-                            projects: 0,
+                            projects: {},
                             activity: ["Successfull Login"]
                         },
                         slack_details: slackData,
@@ -115,7 +115,7 @@ export async function GET(request) {
                     address: null,
                     event_details: {
                         pfp: slackData.user.profile.image_original,
-                        projects: 0,
+                        projects: {},
                         activity: ["Successfull Login"]
                     },
                     slack_details: slackData,

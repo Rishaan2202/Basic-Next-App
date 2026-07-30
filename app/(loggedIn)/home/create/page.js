@@ -1,17 +1,15 @@
 "use client"
 
 import React, { useState } from 'react'
-import { users } from '../../../data/users'
+import { ProjectCreation } from '@/app/components/projectCreation'
 
 const CreateProject = () => {
     const [name, setName] = useState("New Project");
     const [description, setDescription] = useState("Description for New Project");
-    const currentUser = users.find(u => u.id === 1);
-    const [projects, setProjects] = useState(currentUser ? currentUser.projects : []);
 
-    const handleProjectCreation = (Pname, Pdescription) => {
+    const handleProjectCreation = (name, description) => {
         console.log("New project created!");
-        setProjects([...projects, { name: Pname, description: Pdescription }]);
+        ProjectCreation(name, description);
     }
 
     return (
@@ -30,7 +28,7 @@ const CreateProject = () => {
 
             <button onClick={ () => handleProjectCreation(name, description) }>Create Project</button>
 
-            <h2>Projects:</h2>
+            {/* <h2>Projects:</h2>
             <ul>
                 {projects.map((project, index) => (
                     <li key={index}>
@@ -38,7 +36,7 @@ const CreateProject = () => {
                         <p>{project.description}</p>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
         </div>
     )
 }
