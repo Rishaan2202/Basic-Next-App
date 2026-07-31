@@ -27,16 +27,15 @@ export default async function RootLayout({ children }) {
   const pfpDoc = userId 
     ? await db.collection("userData").findOne(
         { user: userId }, 
-        { projection: { pfp: 1 } }
+        { projection: { "slack_details.user.profile.image_original": 1 } }
       ) 
     : null;
   console.log("Profile picture document fetched from MongoDB:", pfpDoc);
 
-  const pfpUrl = pfpDoc?.pfp || "/default-pfp.png"; // Fallback to a default profile picture if none is found
+  const pfpUrl = pfpDoc?.slack_details?.user?.profile?.image_original || "/default-pfp.png"; // Fallback to a default profile picture if none is found
   console.log("Profile picture URL to be used:", pfpUrl);
 
   return (
-    <>
     <html lang="en">
       <body className="bg-sky-500 min-h-full flex flex-col">
         {children}
@@ -50,6 +49,5 @@ export default async function RootLayout({ children }) {
           <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
         </body>
     </html>
-    </>
   );
 }

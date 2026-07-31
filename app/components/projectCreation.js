@@ -3,10 +3,12 @@
 import { cookies } from "next/headers";
 import { getDatabase } from "@/lib/mongodb";
 
-export async function ProjectCreation(name, description) {
+export async function ProjectCreation(name, description, demo_url, code_url, hackatime_project_name) {
 
     const cookieStore = await cookies();
     const db = await getDatabase();
+
+    const now = new Date();
 
     try {
         const userId = cookieStore.get("userId")?.value;
@@ -18,7 +20,7 @@ export async function ProjectCreation(name, description) {
                 { user: userId },
                 {
                     $set: {
-                        "event_details.projects": { name: name, description: description },
+                        "event_details.projects": { name: name, description: description, demo: demo_url, code: code_url, hackatime_project_name: hackatime_project_name },
                     },
                     $push: {
                         "event_details.activity.public": { message: "Created Project" + name, timestamp: now }

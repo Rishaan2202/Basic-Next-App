@@ -52,9 +52,19 @@ export async function GET(request) {
 
         console.log("Hackatime user data fetched:", hackatimeUserData);
 
+        /* ------ Fetching User Stats ------ */
+        const hackatimeProjectsResponse = await fetch(`https://hackatime.hackclub.com/api/v1/authenticated/projects?include_archived=true&projects=&since=&until=&until_date=&start=&end=&start_date=&end_date=`, {
+            headers: { 'Authorization': `Bearer ${hackatimeData.access_token}` },
+        });
+
+        const hackatimeProjectsData = await hackatimeProjectsResponse.json();
+
+        console.log("Hackatime user stats fetched:", hackatimeProjectsData);
+
+
             await db.collection("userData").updateOne(
                 { user: userId },
-                { $set: { hackatime_data: hackatimeUserData } },
+                { $set: { hackatime_data: { user_info: hackatimeUserData, data: hackatimeProjectsData } } },
             );
 
         if (!hackatimeUserResponse.ok) {
