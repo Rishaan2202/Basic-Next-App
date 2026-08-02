@@ -36,8 +36,9 @@ export default async function RootLayout({ children }) {
   console.log("Profile picture URL to be used:", pfpUrl);
 
   return (
+    <>
     <html lang="en">
-      <body className="bg-sky-500 min-h-full flex flex-col">
+      <body className="bg-sky-400 min-h-full flex flex-col">
         {children}
         <h1 className=" absolute left-5 text-4xl font-bold text-white mx-4 mt-4">Rishaan</h1>
         <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-sky-700/70 p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
@@ -49,5 +50,6 @@ export default async function RootLayout({ children }) {
           <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
         </body>
     </html>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getDatabase } from "@/lib/mongodb";
 
@@ -23,7 +23,7 @@ export async function GET(request) {
         return NextResponse.json({ error: "Missing code parameter" }, { status: 400 });
     }
 
-    try{
+    try {
         const hackatimeResponse = await fetch("https://hackatime.hackclub.com/oauth/token", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -61,18 +61,25 @@ export async function GET(request) {
 
         console.log("Hackatime user stats fetched:", hackatimeProjectsData);
 
+        const realHackatimeProjects = {
+            ...hackatimeProjectsData,
+            projects: hackatimeProjectsData.projects.map(project => ({
+                ...project,
+                status: "unshipped"
+            }))
+        };
 
-            await db.collection("userData").updateOne(
-                { user: userId },
-                { $set: { hackatime_data: { user_info: hackatimeUserData, data: hackatimeProjectsData } } },
-            );
+        await db.collection("userData").updateOne(
+            { user: userId },
+            { $set: { hackatime_data: { user_info: hackatimeUserData, data: realHackatimeProjects } } },
+        );
 
         if (!hackatimeUserResponse.ok) {
             return NextResponse.json({ error: "Failed to fetch Hackatime user data", details: hackatimeUserData }, { status: 500 });
         } else {
             await db.collection("userData").updateOne(
                 { user: userId },
-                { $push: { "event_details.activity.public": {message: "Hackatime Linked", timestamp: now}} }
+                { $push: { "event_details.activity.public": { message: "Hackatime Linked", timestamp: now } } }
             );
             return NextResponse.redirect(`http://localhost:3000/home`);
         }

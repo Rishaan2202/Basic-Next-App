@@ -5,6 +5,8 @@ import { ProjectCreation } from '@/app/components/projectCreation'
 import { FetchProjects } from '@/app/components/fetchProjects'
 
 const CreateProject = () => {
+    console.log("CreateProject component rendered");
+
     const [name, setName] = useState("New Project");
     const [description, setDescription] = useState("Description for New Project");
     const [demo_url, setDemoUrl] = useState("");
@@ -13,9 +15,12 @@ const CreateProject = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
+        console.log("Fetching projects for selection...");
+
         const fetchProjects = async () => {
             try {
                 const projectsData = await FetchProjects();
+                console.log("Projects fetched successfully:", projectsData);
                 setProjects(projectsData);
             } catch (error) {
                 console.error("Error fetching projects:", error);
@@ -29,6 +34,8 @@ const CreateProject = () => {
         console.log("New project created!");
         ProjectCreation(name, description, demo_url, code_url, hackatime_project_name);
     }
+
+    console.log("Projects fetched for selection:", projects);
 
     return (
         <div className="absolute left-50 top-20">
@@ -55,10 +62,10 @@ const CreateProject = () => {
             </div>
 
             <div id='formHackatimeProjectNameInput'>
-                <label for="hackatimeProjectName">Hackatime Project Name:</label>
-                <select onChange={ (e) => { setHackatimeProjectName(e.target.value); } } id="hackatimeProjectName">
-                    {projects.map((project, index) => (
-                        <option key={index} value={project.name}>{project.name}</option>
+                <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
+                <select className='w-30 text-black bg-white' onChange={ (e) => { setHackatimeProjectName(e.target.value); } } id="hackatimeProjectName">
+                    {projects.map((projectName, index) => (
+                        <option key={index} value={projectName}>{projectName}</option>
                     ))}
                 </select>
             </div>

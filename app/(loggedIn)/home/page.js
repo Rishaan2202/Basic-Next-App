@@ -1,9 +1,9 @@
 import React from 'react'
-import { users } from '../../data/users'
-import CreateBtn from './createBtn'
 import Link from 'next/link'
 
-const Home = () => {
+console.log("Home page rendered");
+
+export default function Home() {
   return (
     <div className="absolute left-50 top-20">
       <h1>Home</h1>
@@ -14,5 +14,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home
