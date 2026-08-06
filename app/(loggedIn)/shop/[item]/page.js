@@ -4,12 +4,12 @@ import BuyBtn from './BuyBtn'
 
 const BuyPage = async ({ params }) => {
 
-    const Item = await params
+    const Item = await params;
 
     const db = await getDatabase();
     const item = await db.collection("shop_items").findOne({ name: Item.item });
 
-    console.log("Item details:", item);
+    console.log("Item details:", item.toString());
 
     if (!item) {
         return (
@@ -22,7 +22,7 @@ const BuyPage = async ({ params }) => {
             <h1>{item.name}</h1>
             <p>{item.description}</p>
             <h2>Price: ${item.price}</h2>
-            <BuyBtn item={item} />
+            <BuyBtn name={item.name} price={item.price} />
         </div>
     )
 }

@@ -1,0 +1,21 @@
+"use server"
+
+import { getDatabase } from "@/lib/mongodb";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export async function Purchase({name, price}) {
+
+    console.log("Purchase function called with item:", { name, price });
+    
+    const db = await getDatabase();
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("userId")?.value;
+
+    await db.collection("userData").updateOne(
+        { "user": userId },
+        { $push: { "event_details.purchases": {name: name, price: price, timestamp: new Date() } } }
+    )
+
+    redirect("/shop/thanks");
+}
