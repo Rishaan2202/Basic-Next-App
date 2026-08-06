@@ -11,13 +11,13 @@ export async function GET(request) {
     const now = new Date;
 
     const userId = cookieStore.get("userId")?.value;
-    console.log("Retrieved user ID for hackatime purpose:", userId);
+    // console.log("Retrieved user ID for hackatime purpose:", userId);
 
     const { searchParams } = new URL(request.url);
-    console.log("All incoming URL params:", Object.fromEntries(searchParams));
+    // console.log("All incoming URL params:", Object.fromEntries(searchParams));
     const code = searchParams.get("code");
 
-    console.log("Received code from Hackatime callback:", code);
+    // console.log("Received code from Hackatime callback:", code);
 
     if (!code) {
         return NextResponse.json({ error: "Missing code parameter" }, { status: 400 });
@@ -38,7 +38,7 @@ export async function GET(request) {
 
         const hackatimeData = await hackatimeResponse.json();
 
-        console.log("Hackatime OAuth token response:", hackatimeData);
+        // console.log("Hackatime OAuth token response:", hackatimeData);
 
         if (!hackatimeResponse.ok) {
             return NextResponse.json({ error: "Failed to exchange code for token", details: hackatimeData }, { status: 500 });
@@ -50,7 +50,7 @@ export async function GET(request) {
 
         const hackatimeUserData = await hackatimeUserResponse.json();
 
-        console.log("Hackatime user data fetched:", hackatimeUserData);
+        console.log("Hackatime user data fetched Successfully");
 
         /* ------ Fetching User Stats ------ */
         const hackatimeProjectsResponse = await fetch(`https://hackatime.hackclub.com/api/v1/authenticated/projects?include_archived=true&projects=&since=&until=&until_date=&start=&end=&start_date=&end_date=`, {
@@ -59,7 +59,7 @@ export async function GET(request) {
 
         const hackatimeProjectsData = await hackatimeProjectsResponse.json();
 
-        console.log("Hackatime user stats fetched:", hackatimeProjectsData);
+        console.log("Hackatime user stats fetched successfully");
 
         const realHackatimeProjects = {
             ...hackatimeProjectsData,

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { users } from "../../data/users";
 import { cookies } from "next/headers";
 import { getDatabase } from "@/lib/mongodb";
 
@@ -9,10 +8,10 @@ export async function GET(request) {
     const db = await getDatabase();
     const now = new Date;
 
-    console.log(request.url);
+    // console.log(request.url);
 
     const { searchParams } = new URL(request.url);
-    console.log("All incoming URL params:", Object.fromEntries(searchParams));
+    // console.log("All incoming URL params:", Object.fromEntries(searchParams));
     const code = searchParams.get("code");
 
     if (!code) {
@@ -48,8 +47,8 @@ export async function GET(request) {
         });
 
         const userData = await userResponse.json();
-        console.log("User data fetched from Hack Club API:", userData);
-        console.log("Updated users array:", users);
+        console.log("Successfully fetched user data from Hack Club Auth API");
+        // console.log("Updated users array:", users);
 
         if (!userResponse.ok) {
             return NextResponse.json({ error: "Failed to fetch user data", details: userData }, { status: 500 });
@@ -70,7 +69,7 @@ export async function GET(request) {
         }
 
         // Create or Update User in Memory
-        console.log(userData);
+        // console.log(userData);
 
         const existingUser = await db.collection("userData").findOne({ user: userData.identity.id });
 
@@ -133,8 +132,8 @@ export async function GET(request) {
         }
 
 
-        console.log("Updated users array:", users);
-        console.log("Slack API response:", slackData);
+        // console.log("Updated users array:", users);
+        console.log("Slack API response received");
 
         cookieStore.set("userId", userData.identity.id, {
             httpOnly: true,
@@ -143,7 +142,7 @@ export async function GET(request) {
             maxAge: 60 * 60 * 24 * 7,
         });
 
-        console.log("User ID stored in cookie:", userData.identity.id);
+        console.log("User ID stored in cookie");
 
         return NextResponse.redirect(`https://hackatime.hackclub.com/oauth/authorize?client_id=${process.env.HACKATIME_UID}&redirect_uri=${process.env.NEXT_PUBLIC_HACKATIME_REDIRECT_URI}&response_type=code&scope=profile+read`);
     }

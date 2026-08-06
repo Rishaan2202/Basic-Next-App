@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { ProjectCreation } from '@/app/components/projectCreation'
 import { FetchProjects } from '@/app/components/fetchProjects'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const CreateProject = () => {
+
     console.log("CreateProject component rendered");
 
     const [name, setName] = useState("New Project");
@@ -13,6 +16,8 @@ const CreateProject = () => {
     const [code_url, setCodeUrl] = useState("");
     const [hackatime_project_name, setHackatimeProjectName] = useState("");
     const [projects, setProjects] = useState([]);
+
+    const router = useRouter();
 
     useEffect(() => {
         console.log("Fetching projects for selection...");
@@ -33,6 +38,7 @@ const CreateProject = () => {
     const handleProjectCreation = (name, description, demo_url, code_url, hackatime_project_name) => {
         console.log("New project created!");
         ProjectCreation(name, description, demo_url, code_url, hackatime_project_name);
+        router.push('/home');
     }
 
     console.log("Projects fetched for selection:", projects);

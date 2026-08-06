@@ -5,7 +5,7 @@ import { users } from "../data/users";
 export async function GET(request) {
     
     const userId = users.slackID;
-    console.log("Fetching Slack user info for userId:", userId);
+    // console.log("Fetching Slack user info for userId:", userId);
 
     try {
         const tokenResponse = await fetch(`https://slack.com/api/users.info?user=${userId}`, {
@@ -21,7 +21,7 @@ export async function GET(request) {
             return NextResponse.json({ error: "Failed to exchange code for token", details: tokenData }, { status: 500 });
         }
 
-        console.log("Slack API response:", tokenData);
+        // console.log("Slack API response:", tokenData);
         return NextResponse.json({ user: tokenData.user });
 
     }
