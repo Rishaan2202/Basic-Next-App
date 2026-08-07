@@ -1,24 +1,22 @@
-"use client"
+import { getDatabase } from "@/lib/mongodb";
 
-import React, { useState } from 'react'
-import { users } from '../../data/users'
-
-const Projects = () => {
-  
-  const allProjects = users.flatMap(user => user.projects);
+export default async function ExplorePage() {
+  const db = await getDatabase();
+  const projects = await db.collection("userData").find({}, { projection: { "_id": 0, "event_details.projects": 1 } }).toArray();
+  console.log("Explore data fetched from MongoDB:", projects);
 
   return (
-    <div className="left-100">
+    <div>
       <h1>Explore</h1>
       <p>Welcome to the explore page!</p>
-      <div>{allProjects.map((project, index) => (
-        <div key={index}>
-          <h2>{project.name}</h2>
-          <p>{project.description}</p>
-        </div>
-      ))}</div>
+      <ul>
+        {projects.map((user, index) => (
+          <li key={index} className="bg-sky-300/60 m-2 p-2 rounded text-black w-fit">
+            <h2>{user.event_details.projects?.name || "Project Name"}</h2>
+            <p>{user.event_details.projects?.description || "Project Description"}</p>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }
-
-export default Projects
