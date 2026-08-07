@@ -24,11 +24,11 @@ export default async function RootLayout({ children }) {
   console.log(users)
   console.log(currentUser ? "Current user found:" : "No current user found.", currentUser);
 
-  const pfpDoc = userId 
+  const pfpDoc = userId
     ? await db.collection("userData").findOne(
-        { user: userId }, 
-        { projection: { "slack_details.user.profile.image_original": 1 } }
-      ) 
+      { user: userId },
+      { projection: { "slack_details.user.profile.image_original": 1 } }
+    )
     : null;
   console.log("Profile picture document fetched from MongoDB:", pfpDoc);
 
@@ -37,19 +37,15 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-    <html lang="en">
-      <body className="bg-gradient-to-b from-sky-500 to-sky-700 min-h-screen relative">
-        {children}
-        <h1 className=" absolute left-5 text-4xl font-bold text-white mx-4 mt-4">Rishaan</h1>
-        <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-sky-700/70 p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
-          <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/home">Home</Link></button>
-          <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
-          <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
-          <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
-        </div>
-          <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full"/>
-        </body>
-    </html>
+      {children}
+      <h1 className=" absolute left-5 text-4xl font-bold text-white mx-4 mt-4">Rishaan</h1>
+      <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-sky-700/70 p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
+        <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/home">Home</Link></button>
+        <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
+        <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
+        <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
+      </div>
+      <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full" />
     </>
   );
 }
