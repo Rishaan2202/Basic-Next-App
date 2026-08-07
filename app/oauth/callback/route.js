@@ -142,6 +142,13 @@ export async function GET(request) {
             maxAge: 60 * 60 * 24 * 7,
         });
 
+        cookieStore.set("isLoggedIn", "true", {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24 * 7,
+        });
+
         console.log("User ID stored in cookie");
 
         return NextResponse.redirect(`https://hackatime.hackclub.com/oauth/authorize?client_id=${process.env.HACKATIME_UID}&redirect_uri=${process.env.NEXT_PUBLIC_HACKATIME_REDIRECT_URI}&response_type=code&scope=profile+read`);
