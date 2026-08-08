@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { ProjectCreation } from '@/app/components/projectCreation'
+import { Length } from '@/app/components/fetchProjectLength'
 import { FetchProjects } from '@/app/components/fetchProjects'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 const CreateProject = () => {
@@ -17,9 +17,26 @@ const CreateProject = () => {
     const [hackatime_project_name, setHackatimeProjectName] = useState("");
     const [projects, setProjects] = useState([]);
 
+    const [id, setId] = useState(0);
+
+    useEffect(() => {
+      const getLength = async () => {
+        try {
+          const length = await Length();
+          setId(length);
+        } catch (error) {
+          console.error("Error fetching project length:", error);
+        }
+      };
+
+      getLength();
+    }, [])
+    
+
     const router = useRouter();
 
     useEffect(() => {
+        
         console.log("Fetching projects for selection...");
 
         const fetchProjects = async () => {
@@ -35,9 +52,10 @@ const CreateProject = () => {
         fetchProjects();
     }, []);
 
-    const handleProjectCreation = (name, description, demo_url, code_url, hackatime_project_name) => {
+    const handleProjectCreation = async (name, description, demo_url, code_url, hackatime_project_name, id) => {
         console.log("New project created!");
-        ProjectCreation(name, description, demo_url, code_url, hackatime_project_name);
+        ProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id);
+        setId(id + 1);
         router.push('/home');
     }
 
@@ -76,17 +94,7 @@ const CreateProject = () => {
                 </select>
             </div>
 
-            <button onClick={ () => handleProjectCreation(name, description, demo_url, code_url, hackatime_project_name) }>Create Project</button>
-
-            {/* <h2>Projects:</h2>
-            <ul>
-                {projects.map((project, index) => (
-                    <li key={index}>
-                        <h3>{project.name}</h3>
-                        <p>{project.description}</p>
-                    </li>
-                ))}
-            </ul> */}
+            <button onClick={ () => handleProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id) }>Create Project</button>
         </div>
     )
 }

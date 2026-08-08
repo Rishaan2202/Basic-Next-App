@@ -88,7 +88,7 @@ export async function GET(request) {
                         address: null,
                         event_details: {
                             pfp: slackData.user.profile.image_original,
-                            projects: {},
+                            projects: [],
                             activity: {
                                 public: [{message: "Successfull Login", timestamp: now}],
                                 confidential: []
@@ -118,9 +118,9 @@ export async function GET(request) {
                     address: null,
                     event_details: {
                         pfp: slackData.user.profile.image_original,
-                        projects: {},
+                        projects: [],
                         activity: {
-                            public: {message: "Successfull Login", timestamp: now},
+                            public: [{message: "Successfull Login", timestamp: now}]    ,
                             confidential: []
                         }
                     },

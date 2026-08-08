@@ -2,9 +2,8 @@
 
 import { cookies } from "next/headers";
 import { getDatabase } from "@/lib/mongodb";
-import { NextResponse } from "next/server";
 
-export async function ProjectCreation(name, description, demo_url, code_url, hackatime_project_name) {
+export async function ProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id) {
 
     const cookieStore = await cookies();
     const db = await getDatabase();
@@ -12,6 +11,7 @@ export async function ProjectCreation(name, description, demo_url, code_url, hac
     const now = new Date();
 
     try {
+
         const userId = cookieStore.get("userId")?.value;
 
         if (!userId) {
@@ -20,10 +20,8 @@ export async function ProjectCreation(name, description, demo_url, code_url, hac
             await db.collection("userData").updateOne(
                 { user: userId },
                 {
-                    $set: {
-                        "event_details.projects": { name: name, description: description, demo: demo_url, code: code_url, hackatime_project_name: hackatime_project_name },
-                    },
                     $push: {
+                        "event_details.projects": { name: name, description: description, demo: demo_url, code: code_url, hackatime_project_name: hackatime_project_name, id: id },
                         "event_details.activity.public": { message: "Created Project" + name, timestamp: now }
                     }
                 }
