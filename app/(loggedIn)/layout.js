@@ -44,6 +44,7 @@ export default async function RootLayout({ children }) {
         <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
         <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
         <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
+        <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/projects">Projects</Link></button>
       </div>
       <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full" />
     </>
