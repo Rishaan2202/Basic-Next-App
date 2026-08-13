@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { ProjectCreation } from '@/app/components/projectCreation'
 import { Length } from '@/app/components/fetchProjectLength'
-import { FetchProjects } from '@/app/components/fetchProjects'
+import { FetchProjects } from '@/app/components/fetchProjectNames'
 import { useRouter } from 'next/navigation'
 
 const CreateProject = () => {

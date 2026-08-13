@@ -1,3 +1,5 @@
+"use server"
+
 import { getDatabase } from "@/lib/mongodb";
 import { cookies } from "next/headers";
 
@@ -9,7 +11,7 @@ export async function Activity(activity, description, type, timestamp) {
     try {
 
         if (type === "public") {
-            db.collections("userData").updateOne(
+            await db.collection("userData").updateOne(
                 { user: cookieStore.get("userId")?.value },
                 {
                     $push: {
@@ -20,7 +22,7 @@ export async function Activity(activity, description, type, timestamp) {
         }
 
         else {
-            db.collections("userData").updateOne(
+            await db.collection("userData").updateOne(
                 { user: cookieStore.get("userId")?.value },
                 {
                     $push: {

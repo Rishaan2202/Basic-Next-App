@@ -6,7 +6,7 @@ console.log("Home page rendered");
 
 export default async function Home() {
   const db = await getDatabase();
-  const projects = await db.collection("userData").find({}, { projection: { "_id": 0, "event_details.projects": 1 } }).toArray();
+  const projects = await db.collection("userData").find({}, { projection: { "_id": 0, "event_details.projects": 1 } });
   console.log("Home data fetched from MongoDB:", projects);
 
   return (
