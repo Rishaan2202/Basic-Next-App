@@ -3,6 +3,7 @@
 import { getDatabase } from "@/lib/mongodb";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Activity } from "@/app/actions/activity"
 
 export async function Purchase({name, price}) {
 
@@ -16,6 +17,8 @@ export async function Purchase({name, price}) {
         { "user": userId },
         { $push: { "event_details.purchases": {name: name, price: price, timestamp: new Date() } } }
     )
+
+    await Activity("Shop Purchase", "Purchased " + name + " for " + price, "public");
 
     redirect("/shop/thanks");
 }

@@ -88,6 +88,7 @@ export async function GET(request) {
                         address: null,
                         event_details: {
                             pfp: slackData.user.profile.image_original,
+                            role: existingUser.event_details.role || "Participant",
                             projects: [],
                             activity: {
                                 public: [{message: "Successfull Login", timestamp: now}],
@@ -101,13 +102,13 @@ export async function GET(request) {
                 {
                     upsert: true
                 }
+
             )
         }
 
         else {
 
             await db.collection("userData").insertOne(
-
                 {
                     user: userData.identity.id,
                     name: userData.identity.first_name + " " + userData.identity.last_name,
@@ -118,6 +119,7 @@ export async function GET(request) {
                     address: null,
                     event_details: {
                         pfp: slackData.user.profile.image_original,
+                        role: "Participant",
                         projects: [],
                         activity: {
                             public: [{message: "Successfull Login", timestamp: now}]    ,
@@ -128,6 +130,7 @@ export async function GET(request) {
                     hackatime_data: []
 
                 },
+
             );
         }
 

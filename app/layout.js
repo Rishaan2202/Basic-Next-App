@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-sky-400 min-h-full flex flex-col">
-        <img src="@/hackalympics_1024.svg" alt="Hackalympics Logo" className="w-20 h-20 m-4" />
+        <img src="@/hackalympics_1024" alt="Hackalympics Logo" className="w-20 h-20 m-4" />
         {children}
       </body>
     </html>
