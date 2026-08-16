@@ -15,16 +15,16 @@ export default async function Home() {
       <p>Welcome to your home page!</p>
       <div className="bg-sky-300/60 m-2 p-2 rounded text-black w-fit">
         <h2>Projects</h2>
-        <ul>
+        {/* <ul>
           {projects.map((user, index) => (
             <li key={index} className="bg-sky-300/60 m-2 p-2 rounded text-black w-fit">
               <h2>{user.event_details.projects?.name || "Project Name"}</h2>
               <p>{user.event_details.projects?.description || "Project Description"}</p>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
-      <button className='bg-sky-800/50 m-2 p-2 rounded hover:bg-sky-700'><Link href="/home/create">Create Project</Link></button>
+      <button className='bg-sky-800/50 m-2 p-2 rounded hover:bg-sky-700'><Link href="/projects/create">Create Project</Link></button>
     </div>
   )
 }

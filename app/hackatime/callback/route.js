@@ -71,7 +71,7 @@ export async function GET(request) {
 
         await db.collection("userData").updateOne(
             { user: userId },
-            { $set: { hackatime_data: { user_info: hackatimeUserData, data: realHackatimeProjects } } },
+            { $set: { hackatime_data: [{ user_info: hackatimeUserData, data: realHackatimeProjects }] } },
         );
 
         if (!hackatimeUserResponse.ok) {

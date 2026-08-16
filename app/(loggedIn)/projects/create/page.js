@@ -1,10 +1,12 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { ProjectCreation } from '@/app/components/projectCreation'
-import { Length } from '@/app/components/fetchProjectLength'
-import { FetchProjects } from '@/app/components/fetchProjectNames'
+import { ProjectCreation } from '@/app/actions/projectCreation'
+import { Length } from '@/app/actions/fetchProjectLength'
+import { FetchProjects } from '@/app/actions/fetchProjects'
 import { useRouter } from 'next/navigation'
+import Error from '@/app/actions/error'
+
 
 const CreateProject = () => {
 
@@ -43,17 +45,23 @@ const CreateProject = () => {
         const fetchProjects = async () => {
             try {
                 const projectsData = await FetchProjects();
-                console.log("Projects fetched successfully:");
-                setProjects(projectsData);
+                const projectDataArray = projectsData?.[0]?.hackatime_data?.[0]?.data?.projects || [];
+                console.log("Projects fetched successfully:", projectDataArray);
+                setProjects(projectDataArray);
             } catch (error) {
                 console.error("Error fetching projects:", error);
             }
         };
 
         fetchProjects();
+
     }, []);
 
     const handleProjectCreation = async (name, description, demo_url, code_url, hackatime_project_name, id, type) => {
+        if (name.length > 15) {
+            error("Invalid Project Name", "Project name cannot exceed 15 characters.");
+            return;
+        }
         console.log("New project created!");
         await ProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id, type);
         setId(id + 1);
@@ -90,7 +98,7 @@ const CreateProject = () => {
                 <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
                 <select className='w-30 text-black bg-white' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
                     {projects.map((projectName, index) => (
-                        <option key={index} value={projectName}>{projectName}</option>
+                        <option key={index} value={projectName.name}>{projectName.name}</option>
                     ))}
                 </select>
             </div>
