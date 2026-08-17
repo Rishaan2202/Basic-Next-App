@@ -1,5 +1,6 @@
 import "./globals.css";
 import Link from 'next/link';
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "Basic Next App",
