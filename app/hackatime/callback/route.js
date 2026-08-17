@@ -81,7 +81,8 @@ export async function GET(request) {
                 { user: userId },
                 { $push: { "event_details.activity.public": { message: "Hackatime Linked", timestamp: now } } }
             );
-            return NextResponse.redirect(`/home`);
+            const redirectUrl = new URL('/home', request.url);
+            return NextResponse.redirect(redirectUrl);
         }
     }
     catch (error) {
