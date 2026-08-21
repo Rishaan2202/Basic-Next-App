@@ -13,6 +13,7 @@ export default function RootLayout({ children }) {
       <body className="bg-sky-400 min-h-full flex flex-col">
         <img src="@/hackalympics_1024" alt="Hackalympics Logo" className="w-20 h-20 m-4" />
         {children}
+        <Analytics />
       </body>
     </html>
   );
