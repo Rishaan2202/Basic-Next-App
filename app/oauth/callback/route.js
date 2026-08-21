@@ -91,7 +91,7 @@ export async function GET(request) {
                             role: existingUser.event_details.role || "Participant",
                             projects: [],
                             activity: {
-                                public: [{message: "Successfull Login", timestamp: now}],
+                                public: [{ message: "Successfull Login", timestamp: now }],
                                 confidential: []
                             }
                         },
@@ -122,7 +122,7 @@ export async function GET(request) {
                         role: "Participant",
                         projects: [],
                         activity: {
-                            public: [{message: "Successfull Login", timestamp: now}]    ,
+                            public: [{ message: "Successfull Login", timestamp: now }],
                             confidential: []
                         }
                     },
@@ -154,7 +154,8 @@ export async function GET(request) {
 
         console.log("User ID stored in cookie");
 
-        return NextResponse.redirect(`https://hackatime.hackclub.com/oauth/authorize?client_id=${process.env.HACKATIME_UID}&redirect_uri=${process.env.NEXT_PUBLIC_HACKATIME_REDIRECT_URI}&response_type=code&scope=profile+read`);
+        const redirectUrl = new URL('/home', request.url);
+        return NextResponse.redirect(redirectUrl);
     }
     catch (error) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });

@@ -1,5 +1,5 @@
 import "./globals.css";
-import Link from 'next/link';
+import Image from "next/image";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
@@ -10,8 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-sky-400 min-h-full flex flex-col">
-        <img src="@/hackalympics_1024" alt="Hackalympics Logo" className="w-20 h-20 m-4" />
+      <body className="bg-sky-400 min-h-full flex flex-col ml-50">
         {children}
       </body>
     </html>

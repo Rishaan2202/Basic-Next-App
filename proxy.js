@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { getDatabase } from "@/lib/mongodb";
 
 export async function proxy(request) {
 
@@ -7,9 +8,23 @@ export async function proxy(request) {
   const cookieStore = await cookies();
 
   console.log(cookieStore.get("isLoggedIn"));
-  
+
   if (cookieStore.get("isLoggedIn")?.value !== "true") {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (url.pathname.startsWith("/projects/create")) {
+
+    const db = await getDatabase();
+
+    const hackatimeStatusData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.activity.public": 1 } });
+    const hackatimeStatus = hackatimeStatusData.event_details?.activity?.public.some((activity) => activity.message === "Hackatime Linked");
+    
+    if (!hackatimeStatus) {
+      return (
+        NextResponse.redirect(new URL("/projects/link", request.url))
+      );
+    }
   }
 
   return NextResponse.next();
@@ -17,6 +32,6 @@ export async function proxy(request) {
 
 export const config = {
   matcher: [
-    "/home/:path*", "/shop/:path*", "/explore/:path*", "/about/:path*"
-  ],
+    "/home/:path*", "/shop/:path*", "/explore/:path*", "/about/:path*", "/projects/:path*"
+  ]
 };

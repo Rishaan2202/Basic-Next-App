@@ -12,6 +12,9 @@ export async function GET(request) {
 
     const userId = cookieStore.get("userId")?.value;
     // console.log("Retrieved user ID for hackatime purpose:", userId);
+    if (!userId) {
+        return NextResponse.json({ error: "User ID not found in cookies" }, { status: 400 });
+    }
 
     const { searchParams } = new URL(request.url);
     // console.log("All incoming URL params:", Object.fromEntries(searchParams));
@@ -24,6 +27,7 @@ export async function GET(request) {
     }
 
     try {
+
         const hackatimeResponse = await fetch("https://hackatime.hackclub.com/oauth/token", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
