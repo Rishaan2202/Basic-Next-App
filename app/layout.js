@@ -12,6 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-sky-400 min-h-full flex flex-col ml-50">
         {children}
+        <Analytics />
       </body>
     </html>
   );
