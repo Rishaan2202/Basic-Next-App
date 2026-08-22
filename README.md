@@ -18,7 +18,7 @@ I've not focused on much of the Styling for this version of the website, but dw,
 You can access the website here:
 </h3>
 <br>
-ysws.rishaan.dev
+<a href="https://ysws.rishaan.dev">Website</a>
 <br>
 <br>
 <h3>Here's my landing page, ik it's just a minimalistic one, but remember, styling yet to do!</h3>
