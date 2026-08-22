@@ -23,27 +23,27 @@ ysws.rishaan.dev
 <br>
 <h3>Here's my landing page, ik it's just a minimalistic one, but remember, styling yet to do!</h3>
 <br>
-![Landing Page](image.png)
+<img width="959" height="434" alt="Screenshot 2026-08-22 221457" src="https://github.com/user-attachments/assets/7ceb275b-3c77-4892-b594-e9f382aadd9e" />
 <br>
 <br>
 <h3>The Home page looks like this:</h3>
 <br>
-![Home Page](image-1.png)
+<img width="959" height="434" alt="Screenshot 2026-08-22 221635" src="https://github.com/user-attachments/assets/bdbafa20-946d-4dea-85f9-02768a58fba2" />
 <br>
 <br>
 <h3>The shop works really good! Here is it's glimpse:</h3>
 <br>
-![Shop Page](image-2.png)
+<img width="959" height="437" alt="Screenshot 2026-08-22 222602" src="https://github.com/user-attachments/assets/e635e5e9-5d1d-4bd0-9ce1-55aed1b5db49" />
 <br>
 <br>
 <h3>Explore the projects built by other people on the explore page!</h3>
 <br>
-![Explore Page](image-3.png)
+<img width="959" height="433" alt="Screenshot 2026-08-22 222727" src="https://github.com/user-attachments/assets/2e61f64d-7147-4930-9f1f-0654ee03862e" />
 <br>
 <br>
 <h3>Here's the part I worked the most on this whole time, Project Creation:</h3>
 <br>
-![Project Creation Page](image-4.png)
+<img width="959" height="470" alt="Screenshot 2026-08-22 222844" src="https://github.com/user-attachments/assets/5c4e02c0-ddf8-4a4b-96fe-9593d8535468" />
 <br>
 <br>
 <h3>
