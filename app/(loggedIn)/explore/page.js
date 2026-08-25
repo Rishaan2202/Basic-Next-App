@@ -10,7 +10,7 @@ export default async function ExplorePage() {
     return(
       <div>
           <h1>
-          no projects to show
+          No projects to show
           </h1>
       </div>
     )
