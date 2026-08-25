@@ -6,6 +6,16 @@ export default async function ExplorePage() {
   const projectsList = projects.flatMap(user => user.event_details?.projects || []);
   console.log("Explore data fetched from MongoDB:", projectsList);
 
+  if (projectsList === []) {
+    return(
+      <div>
+          <h1>
+          no projects to show
+          </h1>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h1>Explore</h1>
