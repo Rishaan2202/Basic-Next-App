@@ -14,8 +14,8 @@ export default async function ExplorePage() {
           </h1>
       </div>
     )
-  }
-
+  } 
+  else {
   return (
     <div>
       <h1>Explore</h1>
@@ -30,4 +30,6 @@ export default async function ExplorePage() {
       </ul>
     </div>
   );
+}
+
 }
