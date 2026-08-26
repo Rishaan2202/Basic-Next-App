@@ -20,7 +20,7 @@ export async function GET(request) {
 
     try {
 
-        /* OAuth Flow */
+        // OAuth Flow
 
         // Exchange the code for an access token
         const authResponse = await fetch("https://auth.hackclub.com/oauth/token", {
@@ -54,7 +54,7 @@ export async function GET(request) {
             return NextResponse.json({ error: "Failed to fetch user data", details: userData }, { status: 500 });
         }
 
-        /* Slack API Integration */
+        // Slack API Integration 
         const slackResponse = await fetch(`https://slack.com/api/users.info?user=${userData.identity.slack_id}`, {
             method: "GET",
             headers: {

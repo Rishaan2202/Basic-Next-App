@@ -56,7 +56,7 @@ export async function GET(request) {
 
         console.log("Hackatime user data fetched Successfully");
 
-        /* ------ Fetching User Stats ------ */
+        // ------ Fetching User Stats ------ 
         const hackatimeProjectsResponse = await fetch(`https://hackatime.hackclub.com/api/v1/authenticated/projects?include_archived=true&projects=&since=&until=&until_date=&start=&end=&start_date=&end_date=`, {
             headers: { 'Authorization': `Bearer ${hackatimeData.access_token}` },
         });
