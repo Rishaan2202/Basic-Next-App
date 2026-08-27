@@ -1,3 +1,7 @@
-const users = [];
+import { getDatabase } from "@/lib/mongodb";
 
-export { users };
+export async function getUsers() {
+    const db = await getDatabase();
+    const users = await db.collection("userData").find({}).toArray();
+    return users;
+}
