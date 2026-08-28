@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import Link from 'next/link';
-import { users } from '../data/users';
 import { cookies } from 'next/headers';
 import { getDatabase } from "@/lib/mongodb";
 
@@ -17,16 +16,15 @@ export default async function RootLayout({ children }) {
   const userId = cookieStore.get("userId")?.value;
   console.log("Retrieved user ID from cookie:", userId);
 
-  const currentUser = users.find(
-    user => user.id === userId
-  )
+  const currentUser = db.collection("userData").findOne(
+    { id: userId }
+  );
 
-  console.log(users)
   console.log(currentUser ? "Current user found:" : "No current user found.", currentUser);
 
   const pfpDoc = userId
     ? await db.collection("userData").findOne(
-      { user: userId },
+      { id: userId },
       { projection: { "slack_details.user.profile.image_original": 1 } }
     )
     : null;
@@ -48,7 +46,7 @@ export default async function RootLayout({ children }) {
         <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/review">Review</Link></button>
         <button className="bg-sky-300/60 m-2 p-2 rounded text-black"><Link href="/admin">Admin</Link></button>
       </div>
-      <img src={pfpUrl} alt="Profile" className="absolute top-15 right-2 w-10 h-10 rounded-full" />
+      <img src={pfpUrl} alt="Profile" className="absolute top-127 left-8 w-10 h-10 rounded-full" />
     </>
   );
 }

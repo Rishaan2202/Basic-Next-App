@@ -25,7 +25,7 @@ export default async function Home() {
           ))}
         </ul>
 
-      <button className='bg-sky-800/50 m-2 p-2 rounded hover:bg-sky-700'><Link href="/projects/create">Create Project</Link></button>
+      <button className='bg-sky-800/50 m-2 p-2 rounded hover:bg-sky-700'><Link href="/projects/create">+ Create Project</Link></button>
       
     </div>
   )
