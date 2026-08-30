@@ -1,4 +1,4 @@
-/*import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request) {
     
@@ -26,4 +26,4 @@ export async function GET(request) {
     catch (error) {
         return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
     }
-}*/
+}
