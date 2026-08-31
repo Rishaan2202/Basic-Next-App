@@ -22,7 +22,7 @@ export async function proxy(request) {
 
     if (!role) {
       return (
-        NextResponse.redirect(new URL("/unauthorized", request.url))
+        NextResponse.redirect(new URL("/unauthorised", request.url))
       );
     }
   }
@@ -36,7 +36,7 @@ export async function proxy(request) {
 
     if (!role) {
       return (
-        NextResponse.redirect(new URL("/unauthorized", request.url))
+        NextResponse.redirect(new URL("/unauthorised", request.url))
       );
     }
   }
