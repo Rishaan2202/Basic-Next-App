@@ -13,6 +13,34 @@ export async function proxy(request) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  if (url.pathname.startsWith("/admin")) {
+    
+    const db = await getDatabase();
+
+    const roleData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.role": 1 } });
+    const role = hackatimeStatusData.event_details?.role === "Admin";
+
+    if (!role) {
+      return (
+        NextResponse.redirect(new URL("/unauthorized", request.url))
+      );
+    }
+  }
+
+  if (url.pathname.startsWith("/review")) {
+    
+    const db = await getDatabase();
+
+    const roleData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.role": 1 } });
+    const role = hackatimeStatusData.event_details?.role === "Reviewer";
+
+    if (!role) {
+      return (
+        NextResponse.redirect(new URL("/unauthorized", request.url))
+      );
+    }
+  }
+
   if (url.pathname.startsWith("/projects/create")) {
 
     const db = await getDatabase();
