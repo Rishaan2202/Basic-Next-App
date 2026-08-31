@@ -18,7 +18,7 @@ export async function proxy(request) {
     const db = await getDatabase();
 
     const roleData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.role": 1 } });
-    const role = hackatimeStatusData.event_details?.role === "Admin";
+    const role = roleData.event_details?.role === "Admin";
 
     if (!role) {
       return (
@@ -32,7 +32,7 @@ export async function proxy(request) {
     const db = await getDatabase();
 
     const roleData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.role": 1 } });
-    const role = hackatimeStatusData.event_details?.role === "Reviewer";
+    const role = roleData.event_details?.role === "Reviewer" || "Admin";
 
     if (!role) {
       return (
