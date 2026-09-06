@@ -7,7 +7,7 @@ export default async function ExplorePage() {
   console.log("Explore data fetched from MongoDB:", projectsList);
 
   return (
-    <div>
+    <div className="absolute left-50 top-20">
       <h1>Explore</h1>
       <p>Welcome to the explore page!</p>
       <ul>

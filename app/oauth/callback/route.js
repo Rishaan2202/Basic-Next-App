@@ -50,7 +50,7 @@ export async function GET(request) {
         console.log("Successfully fetched user data from Hack Club Auth API");
         // console.log("Updated users array:", users);
 
-        if (!userResponse.ok) {
+        if (!userResponse.ok || !userData) {
             return NextResponse.json({ error: "Failed to fetch user data", details: userData }, { status: 500 });
         }
 
@@ -64,7 +64,7 @@ export async function GET(request) {
 
         const slackData = await slackResponse.json();
 
-        if (!slackResponse.ok) {
+        if (!slackData.ok) {
             return NextResponse.json({ error: "Failed to fetch Slack user data", details: slackData }, { status: 500 });
         }
 
@@ -87,8 +87,8 @@ export async function GET(request) {
                         ysws_eligible: userData.identity.ysws_eligible,
                         address: null,
                         event_details: {
-                            pfp: slackData.user.profile.image_original,
-                            role: existingUser.event_details.role || "Participant",
+                            pfp: slackData?.user?.profile?.image_original,
+                            role: existingUser.event_details?.role || "Participant",
                             projects: [],
                             activity: {
                                 public: [{ message: "Successfull Login", timestamp: now }],
@@ -118,7 +118,7 @@ export async function GET(request) {
                     ysws_eligible: userData.identity.ysws_eligible,
                     address: null,
                     event_details: {
-                        pfp: slackData.user.profile.image_original,
+                        pfp: slackData?.user?.profile?.image_original,
                         role: "Participant",
                         projects: [],
                         activity: {
