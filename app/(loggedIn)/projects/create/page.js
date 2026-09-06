@@ -22,6 +22,7 @@ const CreateProject = () => {
     const [error, setError] = useState({})
 
     const [id, setId] = useState(0);
+    const router = useRouter();
 
     useEffect(() => {
         const getLength = async () => {
@@ -37,7 +38,6 @@ const CreateProject = () => {
     }, [])
 
 
-    const router = useRouter();
 
     useEffect(() => {
 
@@ -77,7 +77,7 @@ const CreateProject = () => {
             return;
         }
 
-        try{
+        try {
 
             let demoUrl = demo_url.trim();
 
@@ -96,8 +96,8 @@ const CreateProject = () => {
             setError({ title: error.message, description: "Please enter a valid demo URL." });
             return;
         }
-        
-        try{
+
+        try {
 
             let codeUrl = code_url.trim();
 
@@ -138,60 +138,65 @@ const CreateProject = () => {
 
     if (Object.keys(error).length > 0) {
         return <Error name={error.title} description={error.description} />
-    } 
-    
+    }
+
     else {
 
         return (
-            <div className="absolute left-50 top-20">
-                <h1>Create a New Project</h1>
+            <>
+                <h1 className='absolute left-50 top-20 text-2xl font-bold'>Create a New Project</h1>
 
-                <div id='formNameInput'>
-                    <h2>Project Name:</h2>
-                    <input onChange={(e) => { setName(e.target.value); }} id="projectName" type="text" placeholder="Enter project name" />
+                <div className="absolute left-50 top-30 bg-sky-500 p-4 rounded shadow-lg w-[80vw]">
+
+
+                    <div id='formNameInput' className='m-2'>
+                        <h2>Project Name:</h2>
+                        <input className='bg-sky-600 p-1.5 rounded w-[76vw]' onChange={(e) => { setName(e.target.value); }} id="projectName" type="text" placeholder="Enter project name" />
+                    </div>
+
+                    <div id='formDescriptionInput' className='m-2'>
+                        <h2>Project Description:</h2>
+                        <textarea className='bg-sky-600 p-1.5 rounded w-[76vw]' onChange={(e) => { setDescription(e.target.value); }} id="projectDescription" placeholder="Enter project description"></textarea>
+                    </div>
+
+                    <div id='formDemoUrlInput' className='m-2'>
+                        <h2>Demo URL:</h2>
+                        <input className='bg-sky-600 p-1.5 rounded w-[76vw]' onChange={(e) => { setDemoUrl(e.target.value.trim()); }} id="demoUrl" type="text" placeholder="Enter demo URL" />
+                    </div>
+
+                    <div id='formCodeUrlInput' className='m-2'>
+                        <h2>Code URL:</h2>
+                        <input className='bg-sky-600 p-1.5 rounded w-[76vw]' onChange={(e) => { setCodeUrl(e.target.value.trim()); }} id="codeUrl" type="text" placeholder="Enter code URL" />
+                    </div>
+
+                    <div id='formHackatimeProjectNameInput' className='m-2'>
+                        <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
+                        <select className='w-30 text-black w-[76vw] bg-sky-600 p-1.5 rounded' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
+                            <option value="No Hackatime Project Selected!">Select Hackatime Project</option>
+                            {projects.map((projectName, index) => (
+                                <option key={index} value={projectName.name}>{projectName.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div id='projectTypeSelection' className='m-2'>
+                        <label htmlFor="projectSelection">Project Type:</label>
+                        <select className='w-30 text-black w-[76vw] bg-sky-600 p-1.5 rounded' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
+                            <option key="No Type Selected" value="No Type Selected!">Select Project Type</option>
+                            <option key="Hardware" value="Hardware">Hardware</option>
+                            <option key="Web Based" value="Web Based">Web Based</option>
+                            <option key="Python" value="Python">Python</option>
+                            <option key="Mac Based" value="Mac Based">Mac Based</option>
+                            <option key="Windows Based" value="Windows Based">Windows Based</option>
+                            <option key="Linux Based" value="Linux Based">Linux Based</option>
+                        </select>
+                    </div>
+
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded relative" onClick={() => handleProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id, type)}>Create Project</button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded relative m-2" onClick={() => router.push('/projects')}>Cancel</button>
+
                 </div>
-
-                <div id='formDescriptionInput'>
-                    <h2>Project Description:</h2>
-                    <textarea onChange={(e) => { setDescription(e.target.value); }} id="projectDescription" placeholder="Enter project description"></textarea>
-                </div>
-
-                <div id='formDemoUrlInput'>
-                    <h2>Demo URL:</h2>
-                    <input onChange={(e) => { setDemoUrl(e.target.value.trim()); }} id="demoUrl" type="text" placeholder="Enter demo URL" />
-                </div>
-
-                <div id='formCodeUrlInput'>
-                    <h2>Code URL:</h2>
-                    <input onChange={(e) => { setCodeUrl(e.target.value.trim()); }} id="codeUrl" type="text" placeholder="Enter code URL" />
-                </div>
-
-                <div id='formHackatimeProjectNameInput'>
-                    <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
-                    <select className='w-30 text-black bg-white' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
-                        <option value = "No Hackatime Project Selected!">Select Hackatime Project</option>
-                        {projects.map((projectName, index) => (
-                            <option key={index} value={projectName.name}>{projectName.name}</option>
-                        ))}
-                    </select>
-                </div>
-
-                <div id='projectTypeSelection'>
-                    <label htmlFor="projectSelection">Project Type:</label>
-                    <select className='w-30 text-black bg-white' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
-                        <option key="No Type Selected" value="No Type Selected!">Select Project Type</option>
-                        <option key="Hardware" value="Hardware">Hardware</option>
-                        <option key="Web Based" value="Web Based">Web Based</option>
-                        <option key="Python" value="Python">Python</option>
-                        <option key="Mac Based" value="Mac Based">Mac Based</option>
-                        <option key="Windows Based" value="Windows Based">Windows Based</option>
-                        <option key="Linux Based" value="Linux Based">Linux Based</option>
-                    </select>
-                </div>
-
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id, type)}>Create Project</button>
-
-            </div>
+            </>
         )
     }
 }
