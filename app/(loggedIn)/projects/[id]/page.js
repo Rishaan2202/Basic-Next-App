@@ -1,6 +1,7 @@
 import React from 'react'
 import { fetchProject } from './fetchProject';
 import Link from 'next/link';
+import '@/app/globals.css'
 
 const page = async ({ params }) => {
 
@@ -25,8 +26,9 @@ const page = async ({ params }) => {
   return (
     <div className="absolute left-50 top-20">
       <h1 className='text-2xl font-bold m-2'>{project.name}</h1>
-      <Link href={project.demo} className='bg-sky-700 hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Demo</Link>
-      <Link href={project.code} className='bg-sky-700 hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Code</Link>
+      <p className='m-2 text-white'>{project.description}</p>
+      <Link href={project.demo} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Demo</Link>
+      <Link href={project.code} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Code</Link>
       <p className='m-2'>{project.description}</p>
     </div>
   )

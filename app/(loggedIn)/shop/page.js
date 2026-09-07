@@ -1,6 +1,7 @@
 import React from 'react'
 import { Items } from './items';
 import BuyBtn from './components/BuyBtn';
+import '@/app/globals.css'
 
 const Shop = async () => {
 
@@ -13,8 +14,8 @@ const Shop = async () => {
       <h1>Shop</h1>
       <div className="grid grid-cols-3 gap-4">
         {items.map((item) => (
-          <div key={item._id.toString()} className="bg-white p-4 rounded-lg shadow-md">
-            <h2 className="text-lg font-bold">{item.name}</h2>
+          <div key={item._id.toString()} className="bg-[var(--secondary)] p-4 rounded-lg shadow-md">
+            <h2 className="text-white text-2xl font-bold">{item.name}</h2>
             <p className="text-gray-600">{item.description}</p>
             <p className="text-gray-800 font-semibold">${item.price}</p>
             <BuyBtn item={item.name} />

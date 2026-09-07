@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import { getDatabase } from '@/lib/mongodb';
+import '@/app/globals.css'
 
 console.log("Home page rendered");
 
 export default async function Home() {
+
   const db = await getDatabase();
   const projects = await db.collection("userData").find({}, { projection: { "_id": 0, "event_details.projects": 1 } });
   console.log("Home data fetched from MongoDB:", projects);
@@ -25,7 +27,7 @@ export default async function Home() {
           ))}
         </ul>
 
-      <button className='bg-sky-800/50 m-2 p-2 rounded hover:bg-sky-700'><Link href="/projects/create">+ Create Project</Link></button>
+      <button className='text-black bg-[var(--tertiary)] m-2 p-2 rounded hover:bg-[var(--tertiary)] hover:scale-[1.1]'><Link href="/projects/create">+ Create Project</Link></button>
       
     </div>
   )

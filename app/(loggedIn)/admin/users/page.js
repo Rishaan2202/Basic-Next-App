@@ -1,5 +1,6 @@
 import React from 'react'
 import { fetchUsers } from '@/app/actions/fetchUsers';
+import '@/app/globals.css'
 
 const Users = async () => {
   const users = await fetchUsers();
@@ -8,7 +9,7 @@ const Users = async () => {
       <h1 className='font-bold text-3xl'>Users</h1>
       <ul>
         {users.map((user, index) => (
-          <li key={index} className="bg-sky-300/60 m-2 p-2 rounded text-black w-fit">
+          <li key={index} className="bg-[var(--secondary)] m-2 p-2 rounded text-black w-fit">
             <h2>{user.id}</h2>
             <p>{user.name}</p>
           </li>

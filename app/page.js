@@ -7,8 +7,7 @@ export default function Page() {
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
   return <>
-    <h1 className="absolute left-1/2 top-2/5 transform -translate-x-1/2 -translate-y-1/2 text-8xl font-bold text-white">Hackalympics</h1>
-    <button><Link className='absolute left-1/2 top-[350px] transform -translate-x-1/2 -translate-y-1/2 bg-sky-800/50 m-2 p-2 w-[100px] rounded hover:bg-sky-700' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
-    {/* <img src="/japan.png" alt="Flyer"/> */}
+    <h1 className="absolute left-1/2 top-2/5 transform -translate-x-1/2 -translate-y-1/2 text-9xl font-bold hover:cursor-default">Hackalympics</h1>
+    <button><Link className='absolute text-xl left-1/2 top-[60vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--tertiary)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:bg-[var(--secondary)] hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
   </>
 }
