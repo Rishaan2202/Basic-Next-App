@@ -14,8 +14,6 @@ export default async function Home() {
   return (
     <div className="absolute left-50 top-20">
 
-      <h1 className='font-bold text-5xl'>!!This website is undergoing some major styling ammendments, the site would be fully styled properly soon!!</h1>
-
       <h1 className='font-bold text-3xl'>Home</h1>
 
       <p>Home Sweet Home!</p>
