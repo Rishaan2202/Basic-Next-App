@@ -1,0 +1,53 @@
+import "@/app/globals.css";
+import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { getDatabase } from "@/lib/mongodb";
+import '../globals.css'
+
+export const metadata = {
+  title: "Basic Next App",
+  description: "This is a basic NEXT.js app",
+};
+
+export default async function RootLayout({ children }) {
+
+  const db = await getDatabase();
+  const cookieStore = await cookies();
+
+  const userId = cookieStore.get("userId")?.value;
+  console.log("Retrieved user ID from cookie:", userId);
+
+  const currentUser = db.collection("userData").findOne(
+    { id: userId }
+  );
+
+  console.log(currentUser ? "Current user found:" : "No current user found.", currentUser);
+
+  const pfpDoc = userId
+    ? await db.collection("userData").findOne(
+      { id: userId },
+      { projection: { "slack_details.user.profile.image_original": 1 } }
+    )
+    : null;
+  console.log("Profile picture document fetched from MongoDB:", pfpDoc);
+
+  const pfpUrl = pfpDoc?.slack_details?.user?.profile?.image_original || "https://cdn.hackclub.com/01a080a4-7b2c-794b-a1df-df9c1c93f62c/default_pfp.png"; // Fallback to a default profile picture if none is found
+  console.log("Profile picture URL to be used:", pfpUrl);
+
+  return (
+    <>
+      {children}
+      <h1 className="text-[var(--secondary)] absolute left-5 text-4xl font-bold mx-4 mt-4">Hackalympics</h1>
+      <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-[var(--tertiary)] p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/home">Home</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/projects">Projects</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/review">Review</Link></button>
+        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/admin">Admin</Link></button>
+      </div>
+      <img src={pfpUrl} alt="Profile" className="absolute top-[5vh] right-[2vw] w-10 h-10 rounded-full" />
+    </>
+  );
+}
