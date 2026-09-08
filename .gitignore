@@ -39,6 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 
 # empty folders that need permission yto delete
 Basic-Next-App
+=======
+>>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae

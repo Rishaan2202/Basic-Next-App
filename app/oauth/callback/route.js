@@ -89,8 +89,13 @@ export async function GET(request) {
                         event_details: {
                             pfp: slackData?.user?.profile?.image_original,
                             role: existingUser.event_details?.role || "Participant",
+<<<<<<< HEAD
                             projects: existingUser.event_details?.projects || [],
                             activity: existingUser.event_details?.activity || {
+=======
+                            projects: [],
+                            activity: {
+>>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae
                                 public: [{ message: "Successfull Login", timestamp: now }],
                                 confidential: []
                             }
@@ -120,8 +125,13 @@ export async function GET(request) {
                     event_details: {
                         pfp: slackData?.user?.profile?.image_original,
                         role: "Participant",
+<<<<<<< HEAD
                         projects: existingUser?.event_details?.projects || [],
                         activity: existingUser?.event_details?.activity || {
+=======
+                        projects: [],
+                        activity: {
+>>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae
                             public: [{ message: "Successfull Login", timestamp: now }],
                             confidential: []
                         }

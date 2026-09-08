@@ -31,7 +31,11 @@ export default async function RootLayout({ children }) {
     : null;
   console.log("Profile picture document fetched from MongoDB:", pfpDoc);
 
+<<<<<<< HEAD
   const pfpUrl = pfpDoc?.slack_details?.user?.profile?.image_original || "https://cdn.hackclub.com/01a080a4-7b2c-794b-a1df-df9c1c93f62c/default_pfp.png"; // Fallback to a default profile picture if none is found
+=======
+  const pfpUrl = pfpDoc?.slack_details?.user?.profile?.image_original || "@/public/default_pfp.png"; // Fallback to a default profile picture if none is found
+>>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae
   console.log("Profile picture URL to be used:", pfpUrl);
 
   return (
