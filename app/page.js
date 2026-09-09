@@ -1,9 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-<<<<<<< HEAD
 import Image from 'next/image';
-=======
->>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae
 
 export default function Page() {
 
