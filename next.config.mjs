@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-  /* config options here */
-};
+
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'assets.hackclub.com'
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn.hackclub.com'
+        }
+      ],
+    },
+    
+};  
 
 export default nextConfig;

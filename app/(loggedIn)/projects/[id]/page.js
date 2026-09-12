@@ -24,20 +24,11 @@ const page = async ({ params }) => {
   }
 
   return (
-<<<<<<< HEAD
     <div className="bg-[var(--tertiary)] rounded mr-3 p-2 absolute left-50 top-20">
       <h1 className='text-3xl font-bold m-2'>{project.name}</h1>
       <p className='m-2 text-black'>{project.description}</p>
       <Link href={project.demo} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Demo</Link>
       <Link href={project.code} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Code</Link>
-=======
-    <div className="absolute left-50 top-20">
-      <h1 className='text-2xl font-bold m-2'>{project.name}</h1>
-      <p className='m-2 text-white'>{project.description}</p>
-      <Link href={project.demo} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Demo</Link>
-      <Link href={project.code} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Code</Link>
-      <p className='m-2'>{project.description}</p>
->>>>>>> ffddf3c6d9a20f962c9c68db7cdc8cb225ad57ae
     </div>
   )
 }
