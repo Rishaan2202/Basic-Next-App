@@ -5,7 +5,6 @@ export default async function ExplorePage() {
   const db = await getDatabase();
   const projects = await db.collection("userData").find({}, { projection: { "_id": 0, "event_details.projects": 1 } }).toArray();
   const projectsList = projects.flatMap(user => user.event_details?.projects || []);
-
   console.log("Explore data fetched from MongoDB:", projectsList);
 
   return (
