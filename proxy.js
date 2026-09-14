@@ -45,10 +45,9 @@ export async function proxy(request) {
 
     const db = await getDatabase();
 
-    const hackatimeStatusData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "event_details.activity.public": 1 } });
-    const hackatimeStatus = hackatimeStatusData.event_details?.activity?.public.some((activity) => activity.message === "Hackatime Linked");
+    const hackatimeStatusData = await db.collection("userData").findOne({ user: cookieStore.get("userId")?.value }, { projection: { "hackatime_data": 1 } });
     
-    if (!hackatimeStatus) {
+    if (!hackatimeStatusData?.hackatime_data?.[0]) {
       return (
         NextResponse.redirect(new URL("/projects/link", request.url))
       );

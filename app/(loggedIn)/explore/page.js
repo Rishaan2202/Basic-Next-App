@@ -1,4 +1,5 @@
 import { getDatabase } from "@/lib/mongodb";
+import Image from "next/image";
 
 export default async function ExplorePage() {
 
@@ -13,7 +14,8 @@ export default async function ExplorePage() {
       <p>Welcome to the explore page!</p>
       <ul className="grid grid-cols-2 h-full">
         {projectsList.map((user, index) => (
-          <li key={index} className="flex flex-col break-words bg-[var(--tertiary)] m-2 p-2 rounded text-black w-[30vw]">
+          <li key={index} className="flex flex-col break-words bg-[var(--tertiary)] m-2 p-2 rounded text-black w-[25vw]">
+            <Image src={user.screenshot || "https://cdn.hackclub.com/01a09f57-fcc4-78d8-b720-d09a3e79effa/No_Image_Available.jpg"} alt="Project Screenshot" width={400} height={200} className="rounded mb-2" />
             <h2 className="font-bold text-2xl flex justify-center">{user.name || "Project Name"}</h2> 
             <p>{user.description || "Project Description"}</p>
             <div className='flex justify-around mt-auto'>

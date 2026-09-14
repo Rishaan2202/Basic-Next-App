@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { ProjectCreation } from '@/app/actions/projectCreation'
 import { Length } from '@/app/actions/fetchProjectLength'
 import { FetchProjects } from '@/app/actions/fetchProjects'
@@ -17,6 +18,10 @@ const CreateProject = () => {
     const [description, setDescription] = useState("Description not added!");
     const [demo_url, setDemoUrl] = useState("");
     const [code_url, setCodeUrl] = useState("");
+    const [screenshot, setScreenshot] = useState("")
+    const [realScreenshot, setRealScreenshot] = useState("")
+    const [isAI, setIsAI] = useState(false)
+    const [aiDescription, setAiDescription] = useState("");
     const [hackatime_project_name, setHackatimeProjectName] = useState("No Hackatime Project Selected!");
     const [projects, setProjects] = useState([]);
     const [type, setType] = useState("No Type Selected!")
@@ -38,6 +43,33 @@ const CreateProject = () => {
         getLength();
     }, [])
 
+    useEffect(() => {
+        if (screenshot) {
+            const uploadScreenshot = async () => {
+
+                try {
+
+                    const formData = new FormData();
+                    formData.append('file', screenshot);
+
+                    const response = await fetch('/cdn', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const data = await response.json();
+                    console.log("Screenshot uploaded successfully. URL:", data.url);
+                    setRealScreenshot(data.url);
+
+                } catch (error) {
+                    console.error("Error uploading screenshot:", error);
+                }
+
+            };
+
+            uploadScreenshot();
+        }
+    }, [screenshot])
 
 
     useEffect(() => {
@@ -61,7 +93,7 @@ const CreateProject = () => {
 
     // console.log("Projects successfully fetched for selection");
 
-    const handleProjectCreation = async (name, description, demo_url, code_url, hackatime_project_name, id, type) => {
+    const handleProjectCreation = async (name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type) => {
 
         if (name.length > 15) {
             setError({ title: "Invalid Project Name", description: "Project name should not exceed 15 characters." });
@@ -118,6 +150,11 @@ const CreateProject = () => {
             return;
         }
 
+        if (!screenshot) {
+            setError({ title: "Screenshot Not Uploaded", description: "Please upload a screenshot for the project." });
+            return;
+        }
+
         if (hackatime_project_name === "No Hackatime Project Selected!") {
             setError({ title: "Invalid Hackatime Project Name", description: "Please select a valid Hackatime project name." });
             return;
@@ -130,7 +167,7 @@ const CreateProject = () => {
 
         else {
             console.log("New project created!");
-            await ProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id, type);
+            await ProjectCreation(name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type);
             setId(id + 1);
             router.push('/home');
         }
@@ -169,30 +206,61 @@ const CreateProject = () => {
                         <input className='bg-[var(--secondary)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setCodeUrl(e.target.value.trim()); }} id="codeUrl" type="text" placeholder="Enter code URL" />
                     </div>
 
-                    <div id='formHackatimeProjectNameInput' className='m-2'>
-                        <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
-                        <select className='w-30 text-black w-[76vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
-                            <option value="No Hackatime Project Selected!">Select Hackatime Project</option>
-                            {projects.map((projectName, index) => (
-                                <option key={index} value={projectName.name}>{projectName.name}</option>
-                            ))}
-                        </select>
+                    <div className='flex'>
+
+                        <div className='flex flex-col items-center'>
+
+                            <div id='projectScreenshot' className='m-2'>
+                                <h2>Screenshot:</h2>
+                                <input className='bg-[var(--secondary)] text-black p-1.5 rounded w-[35vw]' type="file" accept="image/*" onChange={(e) => {
+                                    setScreenshot(e.target.files[0]);
+                                }
+                                } />
+                            </div>
+
+                            <Image src={realScreenshot || "/default_screenshot.png"} alt="Project Screenshot" width={440} height={200} className='rounded' />
+
+                        </div>
+
+                        <div>
+
+                            <div id='formHackatimeProjectNameInput' className='m-2'>
+                                <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
+                                <select className='w-30 text-black w-[40vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
+                                    <option value="No Hackatime Project Selected!">Select Hackatime Project</option>
+                                    {projects.map((projectName, index) => (
+                                        <option key={index} value={projectName.name}>{projectName.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div id='projectTypeSelection' className='m-2'>
+                                <label htmlFor="projectSelection">Project Type:</label>
+                                <select className='w-30 text-black w-[40vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
+                                    <option key="No Type Selected" value="No Type Selected!">Select Project Type</option>
+                                    <option key="Hardware" value="Hardware">Hardware</option>
+                                    <option key="Web Based" value="Web Based">Web Based</option>
+                                    <option key="Python" value="Python">Python</option>
+                                    <option key="Mac Based" value="Mac Based">Mac Based</option>
+                                    <option key="Windows Based" value="Windows Based">Windows Based</option>
+                                    <option key="Linux Based" value="Linux Based">Linux Based</option>
+                                </select>
+                            </div>
+
+                            <div id='aiUsageInput' className='m-2 p-2 bg-[var(--secondary)] w-[40vw] rounded'>
+                                <div className='flex gap-3'>
+                                    <input type="checkbox" id="aiUsageCheckbox" onChange={(e) => { setIsAI(e.target.checked); }} />
+                                    <h2 className='text-[var(--primary)] text-xl'>I have Used AI in this project</h2>
+                                </div>
+                                <p className='text-[var(--tertiary)] text-xs'>If you have used AI in any way in this project, then check the box above and describe how you used it, so we could determine if it's under the allowed limit. You can use at most 30% of AI in your entire project. If you use it more than that, then you might get banned from this program or even future Hack Club programs!</p>
+                                <textarea disabled={!isAI} className='border-2 relative top-2 text-black p-1.5 rounded w-[39vw]' onChange={(e) => { setAiDescription(e.target.value); }} id="aiDescription" placeholder="Describe how you used AI in your project!"></textarea>
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div id='projectTypeSelection' className='m-2'>
-                        <label htmlFor="projectSelection">Project Type:</label>
-                        <select className='w-30 text-black w-[76vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
-                            <option key="No Type Selected" value="No Type Selected!">Select Project Type</option>
-                            <option key="Hardware" value="Hardware">Hardware</option>
-                            <option key="Web Based" value="Web Based">Web Based</option>
-                            <option key="Python" value="Python">Python</option>
-                            <option key="Mac Based" value="Mac Based">Mac Based</option>
-                            <option key="Windows Based" value="Windows Based">Windows Based</option>
-                            <option key="Linux Based" value="Linux Based">Linux Based</option>
-                        </select>
-                    </div>
-
-                    <button className="bg-[var(--secondary)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative" onClick={() => handleProjectCreation(name, description, demo_url, code_url, hackatime_project_name, id, type)}>Create Project</button>
+                    <button className="bg-[var(--secondary)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative" onClick={() => handleProjectCreation(name, description, demo_url, code_url, realScreenshot, hackatime_project_name, id, type)}>Create Project</button>
                     <button className="bg-[var(--secondary)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative m-2" onClick={() => router.push('/projects')}>Cancel</button>
 
                 </div>
