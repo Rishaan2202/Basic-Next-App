@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchUsers } from '@/app/actions/fetchUsers';
+import { fetchUsers } from '@/app/actions/fetch_users';
 
 const About = async () => {
   const users = await fetchUsers();

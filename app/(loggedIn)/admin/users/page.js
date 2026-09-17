@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchUsers } from '@/app/actions/fetchUsers';
+import { fetchUsers } from '@/app/actions/fetch_users';
 import '@/app/globals.css'
 
 const Users = async () => {

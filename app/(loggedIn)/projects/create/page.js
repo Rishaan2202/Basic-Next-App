@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { ProjectCreation } from '@/app/actions/projectCreation'
-import { Length } from '@/app/actions/fetchProjectLength'
-import { FetchProjects } from '@/app/actions/fetchProjects'
+import { ProjectCreation } from '@/app/actions/project_creation'
+import { Length } from '@/app/actions/fetch_project_length'
+import { FetchProjects } from '@/app/actions/fetch_projects'
 import { useRouter } from 'next/navigation'
 import Error from '@/app/components/error'
 import '@/app/globals.css'
