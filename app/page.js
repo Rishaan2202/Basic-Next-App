@@ -18,7 +18,7 @@ export default function Page() {
       />
     </Link>
     <h1 className="absolute left-1/2 top-3/10 transform -translate-x-1/2 -translate-y-1/2 text-9xl font-bold hover:cursor-default">Hackalympics</h1>
-    <p className='absolute left-1/2 top-1/2 text-xl text-[var(--tertiary)] transform -translate-x-1/2 -translate-y-1/2 font-bold hover:cursor-default'>Hackalympics is a week long Olympics themed YSWS in TOKYO Japan!!!</p>
+    <p className='absolute left-1/2 top-1/2 text-xl text-[var(--tertiary)] transform -translate-x-1/2 -translate-y-1/2 w-fit font-bold hover:cursor-default'>Hackalympics is a week long Olympics themed YSWS in TOKYO, Japan!!!</p>
     <button><Link className='absolute text-xl left-1/2 top-[60vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--tertiary)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:bg-[var(--secondary)] hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
 
   <div className='bg-[var(--tertiary)] w-[100vw] h-[300vh] absolute top-[100vh] left-0 z-[-1]'></div>
