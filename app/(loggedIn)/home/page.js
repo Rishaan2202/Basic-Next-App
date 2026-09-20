@@ -32,8 +32,8 @@ export default async function Home() {
                   <Image src={user.screenshot || "https://cdn.hackclub.com/01a09f57-fcc4-78d8-b720-d09a3e79effa/No_Image_Available.jpg"} alt="Project Screenshot" width={150} height={100} className="rounded mb-2" />
                   <h2 className="font-bold text-xl flex justify-center">{user.name || "Project Name"}</h2>
                   <div className='flex justify-around'>
-                    <button className="relative bg-[var(--secondary)] text-xs hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded w-[100%]"><Link href={user.demo || "#"} target="_blank" rel="noopener noreferrer">Demo</Link></button>
-                    <button className="relative bg-[var(--secondary)] hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded text-xs w-[100%] "><Link href={`/home/projects/${user.id}` || "#"} target="_blank" rel="noopener noreferrer">Open</Link></button>
+                    <button className="relative bg-[var(--secondary)] text-xs hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded w-[100%]"><Link href={user.demo || "#"} target="_blank">Demo</Link></button>
+                    <button className="relative bg-[var(--secondary)] hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded text-xs w-[100%]"><Link href={`/home/projects/${user.id}` || "#"} target="_blank">Open</Link></button>
                   </div>
                 </Link>
               </li>

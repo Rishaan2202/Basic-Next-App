@@ -7,7 +7,8 @@ export default function Page() {
   const clientId = process.env.NEXT_PUBLIC_HACKCLUB_CLIENT_ID;
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
-  return <>
+  return <div>
+
     <Link href='https://hackclub.com' target='_blank'>
       <Image
         src='https://assets.hackclub.com/flag-orpheus-left.svg'
@@ -17,15 +18,16 @@ export default function Page() {
         className='absolute left-0 h-auto-max-w-full'
       />
     </Link>
+    
     <h1 className="absolute left-1/2 top-3/10 transform -translate-x-1/2 -translate-y-1/2 text-9xl font-bold hover:cursor-default">Hackalympics</h1>
-    <p className='absolute left-1/2 top-1/2 text-xl text-[var(--tertiary)] transform -translate-x-1/2 -translate-y-1/2 w-fit font-bold hover:cursor-default'>Hackalympics is a week long Olympics themed YSWS in TOKYO, Japan!!!</p>
-    <button><Link className='absolute text-xl left-1/2 top-[60vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--tertiary)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:bg-[var(--secondary)] hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
+    <p className='absolute left-1/2 top-1/2 text-xl text-[var(--green)] transform -translate-x-1/2 -translate-y-1/2 w-fit font-bold hover:cursor-default'>A week long <span className='text-[var(--blue)]'>OLYMPICS</span> themed YSWS in <span className='text-[var(--red)]'>TOKYO</span>, <span className='text-[var(--yellow)]'>JAPAN</span></p>
+    <button><Link className='absolute text-xl left-1/2 top-[60vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--black)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
 
-  <div className='bg-[var(--tertiary)] w-[100vw] h-[300vh] absolute top-[100vh] left-0 z-[-1]'></div>
+    <div className='bg-[var(--black)] w-[100vw] h-[250vh] absolute top-[100vh] left-0 z-[-1]'></div>
 
     <div className='absolute top-[101vh]'>
 
-      <h1 className='text-7xl relative left-[18vw] top-[5vh] text-[var(--primary)]'>What is This?</h1>
+      <h1 className='text-7xl relative left-[18vw] top-[5vh] text-[var(--yellow)]'>What is This?</h1>
 
       <div className='relative m-2 p-3 right-[10vw] top-[3vh] rounded hover:scale-[1.1]'>
 
@@ -62,19 +64,39 @@ export default function Page() {
 
         </div>
 
-        <h2 className='text-5xl relative bottom-45 text-[var(--secondary)]'>Build Cool Projects!</h2>
+        <h2 className='text-5xl relative bottom-45 text-[var(--blue)]'>Build Cool Projects!</h2>
 
       </div>
 
-      <Image
-        src='https://cdn.hackclub.com/01a09632-c672-7bd2-9e8d-5c78ecedf216/arrow.svg'
-        alt='Arrow Image'
-        width={250}
-        height={200}
-        className='absolute left-[35vw] bottom-[20vh] rotate-[-20deg]'
-      />
+      <div className='relative left-[45vw]'>
 
+        <Image
+          src='https://cdn.hackclub.com/01a0bfe8-7784-728a-9ad7-36f62412e5eb/Untitled%20design%20(5).png'
+          alt='Pixel Game Image'
+          width={280}
+          height={200}
+          className='rounded relative bottom-50 left-20 rotate-[3deg] hover:scale-[1.1]'
+        />
+
+
+        <h2 className='text-5xl relative bottom-45 text-[var(--green)]'>Ship' em when ready!</h2>
+
+      </div>
+
+      <div className='relative left-[-4vw]'>
+
+        <Image
+          src='https://cdn.hackclub.com/01a0bfed-dfce-7bae-b564-26c5d4c958f2/Untitled%20design%20(7).png'
+          alt='Arrow Image'
+          width={300}
+          height={200}
+          className='relative rounded'
+        />
+
+        <h2 className='text-5xl right-[1vw] relative top-[5vh] text-[var(--green)]'>Earn Currency!</h2>
+
+      </div>
     </div>
-    
-  </>
+
+  </div>
 }

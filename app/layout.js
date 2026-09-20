@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`bg-[var(--primary)] text-[var(--secondary)] min-h-full flex flex-col ml-50 ${mansalva.className}`}>
+      <body className={`overflow-x-hidden bg-[var(--white)] text-[var(--black)] min-h-full flex flex-col ml-50 ${mansalva.className}`}>
         {children}
         <Analytics />
         <SpeedInsights />
