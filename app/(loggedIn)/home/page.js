@@ -20,26 +20,29 @@ export default async function Home() {
 
       <p>Home Sweet Home!</p>
 
-      <div id='homeProjectsArea' className='bg-[var(--secondary)] m-2 p-2 w-[80vw] rounded h-[55vh] text-black'>
-        <h2 className='text-2xl font-bold'>My Projects</h2>
+      <div id='homeProjectsArea' className='bg-[var(--black)] m-2 p-2 w-[80vw] rounded h-[58vh] text-[var(--blue)]'>
+        <h2 className='text-3xl m-2 font-bold text-[var(--yellow)]'>My Projects</h2>
         {!myProjects || myProjects.length === 0 ? (
-          <p>No projects found.</p>
+          <Link href={`/projects/create`} className="text-[var(--primary)] hover:scale-[1.05] flex flex-col items-center justify-center border-2 border-dashed m-2 h-[94%] p-2 rounded text-black w-[13vw]">
+            <h1 className='text-8xl'>+</h1>
+            <h2 className="font-bold text-xl flex justify-center">Create Project</h2>
+          </Link>
         ) : (
           <ul className="flex flex-nowrap gap-4 overflow-x-auto pb-4">
             {myProjects.map((user, index) => (
-              <li key={index} className="hover:scale-[1.05] flex flex-col shrink-0 break-words bg-[var(--tertiary)] m-2 h-[73%] p-2 rounded text-black w-[13vw]">
+              <li key={index} className="hover:scale-[1.05] flex flex-col shrink-0 break-words bg-[var(--red)] m-2 h-[73%] p-2 rounded text-[var(--blue)] w-[13vw]">
                 <Link href={`/home/projects/${user.id}`} className="text-[var(--primary)]">
                   <Image src={user.screenshot || "https://cdn.hackclub.com/01a09f57-fcc4-78d8-b720-d09a3e79effa/No_Image_Available.jpg"} alt="Project Screenshot" width={150} height={100} className="rounded mb-2" />
                   <h2 className="font-bold text-xl flex justify-center">{user.name || "Project Name"}</h2>
                   <div className='flex justify-around'>
-                    <button className="relative bg-[var(--secondary)] text-xs hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded w-[100%]"><Link href={user.demo || "#"} target="_blank">Demo</Link></button>
-                    <button className="relative bg-[var(--secondary)] hover:bg-[var(--secondary)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded text-xs w-[100%]"><Link href={`/home/projects/${user.id}` || "#"} target="_blank">Open</Link></button>
+                    <button className="relative bg-[var(--yellow)] text-xs hover:bg-[var(--green)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded w-[100%]"><Link href={user.demo || "#"} target="_blank">Demo</Link></button>
+                    <button className="relative bg-[var(--yellow)] hover:bg-[var(--green)] h-[5vh] hover:cursor-pointer hover:scale-[1.1] m-2 text-black font-bold py-2 px-4 rounded text-xs w-[100%]"><Link href={`/home/projects/${user.id}` || "#"} target="_blank">Open</Link></button>
                   </div>
                 </Link>
               </li>
             ))}
             <li>
-              <Link href={`/projects/create`} className="text-[var(--primary)] hover:scale-[1.05] flex flex-col items-center justify-center border-2 border-dashed m-2 h-[94%] p-2 rounded text-black w-[13vw]">
+              <Link href={`/projects/create`} className="text-[var(--red)] hover:scale-[1.05] flex flex-col items-center justify-center border-2 border-dashed m-2 h-[94%] p-2 rounded w-[13vw]">
                 <h1 className='text-8xl'>+</h1>
                 <h2 className="font-bold text-xl flex justify-center">Create Project</h2>
               </Link>
@@ -51,29 +54,32 @@ export default async function Home() {
 
       <div className='flex'>
 
-      <div id='announcementsArea' className="flex flex-col items-center bg-[var(--tertiary)] m-2 p-2 rounded text-black w-[50vw] [scrollbar-width: thin] overflow-y-auto overflow-x-hidden h-[50vh]">
-        <h2 className='text-2xl font-bold'>Activity</h2>
-        <ul>
-          {activity?.flatMap((user, index) => user?.event_details?.activity?.public?.map((item, userindex) => (
-            <li key={`${index}-${userindex}`} className="flex justify-between items-center bg-[var(--secondary)] m-2 p-2 rounded text-black w-[45vw]">
-              <p className='text-[var(--primary)]'>{item.message}</p>
-              <div className='flex flex-col items-center'>
-                <p className='text-[var(--tertiary)]'>{item.timestamp?.toLocaleTimeString()}</p>
-                <p className='text-[var(--tertiary)]'>{item.timestamp?.toLocaleDateString()}</p>
-              </div>
-            </li>
-          )))}
-        </ul>
-      </div>
+        <div id='announcementsArea' className="flex flex-col items-center bg-[var(--black)] m-2 p-2 rounded text-[var(--blue)] w-[50vw] [scrollbar-width: thin] overflow-y-auto overflow-x-hidden h-[50vh]">
+          <h2 className='text-2xl font-bold text-[var(--yellow)]'>Activity</h2>
+          <ul>
+            {activity?.flatMap((user, index) => user?.event_details?.activity?.public?.map((item, userindex) => (
+              <li key={`${index}-${userindex}`} className="flex justify-between items-center bg-[var(--green)] m-2 p-2 rounded text-black w-[45vw]">
+                <p className='text-xl text-[var(--primary)]'>{item.message}</p>
+                <div className='flex flex-col items-center'>
+                  <p className='font-xl text-[var(--tertiary)]'>{item.timestamp?.toLocaleTimeString()}</p>
+                  <p className='text-[var(--tertiary)]'>{item.timestamp?.toLocaleDateString()}</p>
+                </div>
+              </li>
+            )))}
+          </ul>
+        </div>
 
-      <div className="flex flex-col items-center bg-[var(--tertiary)] m-2 p-2 rounded text-black w-[29vw] [scrollbar-width: thin] overflow-y-auto overflow-x-hidden h-[50vh]">
-        <h2 className='text-2xl font-bold'>Announcements</h2>
-        <ul>
-          <li className="flex justify-between items-center bg-[var(--secondary)] m-2 p-2 rounded text-black w-[26vw]">
-            <p className='text-[var(--primary)]'>Welcome to the new year!</p>
-          </li>
-        </ul>
-      </div>
+        <div className="flex flex-col items-center bg-[var(--black)] m-2 p-2 rounded text-[var(--blue)] w-[29vw] [scrollbar-width: thin] overflow-y-auto overflow-x-hidden h-[50vh]">
+          <h2 className='text-2xl font-bold text-[var(--yellow)]'>Announcements</h2>
+          <ul className='text-xl'>
+            <li className="flex justify-between items-center bg-[var(--blue)] m-2 p-2 rounded text-black w-[26vw]">
+              <p className='text-[var(--primary)]'>Welcome to the new year!</p>
+            </li>
+            <li className="flex justify-between items-center bg-[var(--blue)] m-2 p-2 rounded text-black w-[26vw]">
+              <p className='text-[var(--primary)]'>Welcome to the end of old year!</p>
+            </li>
+          </ul>
+        </div>
       </div>
 
     </div>

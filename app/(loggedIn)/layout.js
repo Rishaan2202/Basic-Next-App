@@ -37,15 +37,15 @@ export default async function RootLayout({ children }) {
   return (
     <>
       {children}
-      <h1 className="text-[var(--secondary)] absolute left-5 text-4xl font-bold mx-4 mt-4">Hackalympics</h1>
-      <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-[var(--tertiary)] p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/home">Home</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/projects">Projects</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/review">Review</Link></button>
-        <button className="bg-[var(--secondary)] m-2 p-2 rounded text-black"><Link href="/admin">Admin</Link></button>
+      <h1 className="text-[var(--black)] absolute left-5 text-4xl font-bold mx-4 mt-4">Hackalympics</h1>
+      <div className=" absolute top-15 left-2 w-40 flex flex-col text-white bg-[var(--black)] p-3 rounded-lg shadow-md space-x-4 m-4 h-fit">
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/home">Home</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/explore">Explore</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/shop">Shop</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/about">About</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/projects">Projects</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/review">Review</Link></button>
+        <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/admin">Admin</Link></button>
       </div>
       <img src={pfpUrl} alt="Profile" className="absolute top-[5vh] right-[2vw] w-10 h-10 rounded-full" />
     </>
