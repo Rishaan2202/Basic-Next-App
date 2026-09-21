@@ -20,6 +20,21 @@ export default async function Home() {
 
       <p>Home Sweet Home!</p>
 
+      <div className='absolute top-[2vh] left-[15vw]'>
+        
+        <svg width="800" height="21" viewBox="0 0 800 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="21" rx="10.5" fill="black" />
+        </svg>
+
+
+
+        {/* <svg width={`16*${totalHours}`} height="22" viewBox="0 0 850 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect y="0.166718" width={`16*${totalHours}`} height="21" rx="10.5" fill="#0085C7" />
+          <path d="M480 1.16672C477.634 -0.603399 468.5 0.166718 468.5 0.166718V21.1667C468.5 21.1667 477.644 21.7665 480.5 18.6667C482.099 16.9316 483 14.6667 483 13.1667C483 11.6667 481.103 9.94774 480.5 7.66672C479.849 5.20535 482.526 3.05647 480 1.16672Z" fill="#0085C7" />
+        </svg> */}
+
+      </div>
+
       <div id='homeProjectsArea' className='bg-[var(--black)] m-2 p-2 w-[80vw] rounded h-[58vh] text-[var(--blue)]'>
         <h2 className='text-3xl m-2 font-bold text-[var(--yellow)]'>My Projects</h2>
         {!myProjects || myProjects.length === 0 ? (

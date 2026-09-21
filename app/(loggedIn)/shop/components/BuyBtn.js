@@ -15,7 +15,7 @@ const BuyBtn = ({ item }) => {
     }
 
     return (
-        <button className="bg-[var(--tertiary)] text-black px-4 py-2 rounded mt-2 hover:scale-[1.1] hover:cursor-pointer" onClick={() => handlePurchase(item)}>Buy</button>
+        <button className="bg-[var(--yellow)] text-black px-4 py-2 rounded mt-2 hover:scale-[1.1] hover:cursor-pointer" onClick={() => handlePurchase(item)}>Buy</button>
     )
 }
 

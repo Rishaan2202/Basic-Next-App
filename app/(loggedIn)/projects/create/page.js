@@ -23,11 +23,12 @@ const CreateProject = () => {
     const [isAI, setIsAI] = useState(false)
     const [aiDescription, setAiDescription] = useState("");
     const [hackatime_project_name, setHackatimeProjectName] = useState("No Hackatime Project Selected!");
+    const [hours, setHours] = useState(0)
     const [projects, setProjects] = useState([]);
     const [type, setType] = useState("No Type Selected!")
     const [error, setError] = useState({})
-
     const [id, setId] = useState(0);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -93,20 +94,20 @@ const CreateProject = () => {
 
     // console.log("Projects successfully fetched for selection");
 
-    const handleProjectCreation = async (name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type) => {
+    const handleProjectCreation = async (name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type, hours) => {
 
         if (name.length > 15) {
             setError({ title: "Invalid Project Name", description: "Project name should not exceed 15 characters." });
             return;
         }
 
-        if (description.length > 3000) {
-            setError({ title: "Invalid Project Description", description: "Project description should not exceed 3000 characters." });
+        if (description.length > 120) {
+            setError({ title: "Invalid Project Description", description: "Project description should not exceed 80 characters." });
             return;
         }
 
-        if (description.length < 50) {
-            setError({ title: "Invalid Project Description", description: "Project description should be at least 50 characters long." });
+        if (description.length < 20) {
+            setError({ title: "Invalid Project Description", description: "Project description should be at least 20 characters long." });
             return;
         }
 
@@ -167,7 +168,7 @@ const CreateProject = () => {
 
         else {
             console.log("New project created!");
-            await ProjectCreation(name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type);
+            await ProjectCreation(name, description, demo_url, code_url, screenshot, hackatime_project_name, id, type, hours);
             setId(id + 1);
             router.push('/home');
         }
@@ -184,26 +185,26 @@ const CreateProject = () => {
             <>
                 <h1 className='absolute left-50 top-20 text-2xl font-bold'>Create a New Project</h1>
 
-                <div className="absolute left-50 top-30 bg-[var(--tertiary)] p-4 rounded shadow-lg w-[80vw]">
+                <div className="absolute left-50 top-30 bg-[var(--black)] text-white p-4 rounded shadow-lg w-[80vw]">
 
                     <div id='formNameInput' className='m-2'>
                         <h2>Project Name:</h2>
-                        <input className='bg-[var(--secondary)] p-1.5 text-black rounded w-[76vw]' onChange={(e) => { setName(e.target.value); }} id="projectName" type="text" placeholder="Enter project name" />
+                        <input className='bg-[var(--blue)] p-1.5 text-black rounded w-[76vw]' onChange={(e) => { setName(e.target.value); }} id="projectName" type="text" placeholder="Enter project name" />
                     </div>
 
                     <div id='formDescriptionInput' className='m-2'>
                         <h2>Project Description:</h2>
-                        <textarea className='bg-[var(--secondary)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setDescription(e.target.value); }} id="projectDescription" placeholder="Enter project description"></textarea>
+                        <textarea className='bg-[var(--blue)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setDescription(e.target.value); }} id="projectDescription" placeholder="Enter project description"></textarea>
                     </div>
 
                     <div id='formDemoUrlInput' className='m-2'>
                         <h2>Demo URL:</h2>
-                        <input className='bg-[var(--secondary)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setDemoUrl(e.target.value.trim()); }} id="demoUrl" type="text" placeholder="Enter demo URL" />
+                        <input className='bg-[var(--blue)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setDemoUrl(e.target.value.trim()); }} id="demoUrl" type="text" placeholder="Enter demo URL" />
                     </div>
 
                     <div id='formCodeUrlInput' className='m-2'>
                         <h2>Code URL:</h2>
-                        <input className='bg-[var(--secondary)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setCodeUrl(e.target.value.trim()); }} id="codeUrl" type="text" placeholder="Enter code URL" />
+                        <input className='bg-[var(--blue)] text-black p-1.5 rounded w-[76vw]' onChange={(e) => { setCodeUrl(e.target.value.trim()); }} id="codeUrl" type="text" placeholder="Enter code URL" />
                     </div>
 
                     <div className='flex'>
@@ -212,7 +213,7 @@ const CreateProject = () => {
 
                             <div id='projectScreenshot' className='m-2'>
                                 <h2>Screenshot:</h2>
-                                <input className='bg-[var(--secondary)] text-black p-1.5 rounded w-[35vw]' type="file" accept="image/*" onChange={(e) => {
+                                <input className='bg-[var(--red)] text-black p-1.5 rounded w-[35vw]' type="file" accept="image/*" onChange={(e) => {
                                     setScreenshot(e.target.files[0]);
                                 }
                                 } />
@@ -225,18 +226,32 @@ const CreateProject = () => {
                         <div>
 
                             <div id='formHackatimeProjectNameInput' className='m-2'>
+
                                 <label htmlFor="hackatimeProjectName">Hackatime Project Name:</label>
-                                <select className='w-30 text-black w-[40vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setHackatimeProjectName(e.target.value); }} id="hackatimeProjectName">
+
+                                <select className='w-30 text-black w-[40vw] bg-[var(--yellow)] p-1.5 rounded' onChange={(e) => {
+
+                                    const selectedProject = projects.find(project => project.name === e.target.value);
+
+                                    setHackatimeProjectName(e.target.value);
+                                    setHours(selectedProject.total_seconds / 3600);
+
+                                }} id="hackatimeProjectName">
+
                                     <option value="No Hackatime Project Selected!">Select Hackatime Project</option>
+
                                     {projects.map((projectName, index) => (
-                                        <option key={index} value={projectName.name}>{projectName.name}</option>
+                                        <option key={index} value={projectName.name}>
+                                            {projectName.name}
+                                        </option>
                                     ))}
+
                                 </select>
                             </div>
 
                             <div id='projectTypeSelection' className='m-2'>
                                 <label htmlFor="projectSelection">Project Type:</label>
-                                <select className='w-30 text-black w-[40vw] bg-[var(--secondary)] p-1.5 rounded' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
+                                <select className='w-30 text-black w-[40vw] bg-[var(--yellow)] mb-2 p-1.5 rounded' onChange={(e) => { setType(e.target.value); }} id="projectSelection">
                                     <option key="No Type Selected" value="No Type Selected!">Select Project Type</option>
                                     <option key="Hardware" value="Hardware">Hardware</option>
                                     <option key="Web Based" value="Web Based">Web Based</option>
@@ -247,12 +262,12 @@ const CreateProject = () => {
                                 </select>
                             </div>
 
-                            <div id='aiUsageInput' className='m-2 p-2 bg-[var(--secondary)] w-[40vw] rounded'>
+                            <div id='aiUsageInput' className='m-2 p-2 bg-[var(--green)] w-[40vw] rounded'>
                                 <div className='flex gap-3'>
                                     <input type="checkbox" id="aiUsageCheckbox" onChange={(e) => { setIsAI(e.target.checked); }} />
-                                    <h2 className='text-[var(--primary)] text-xl'>I have Used AI in this project</h2>
+                                    <h2 className='text-[var(--white)] text-xl'>I have Used AI in this project</h2>
                                 </div>
-                                <p className='text-[var(--tertiary)] text-xs'>If you have used AI in any way in this project, then check the box above and describe how you used it, so we could determine if it's under the allowed limit. You can use at most 30% of AI in your entire project. If you use it more than that, then you might get banned from this program or even future Hack Club programs!</p>
+                                <p className='text-[var(--black)] text-xs'>If you have used AI in any way in this project, then check the box above and describe how you used it, so we could determine if it's under the allowed limit. You can use at most 30% of AI in your entire project. If you use it more than that, then you might get banned from this program or even future Hack Club programs!</p>
                                 <textarea disabled={!isAI} className='border-2 relative top-2 text-black p-1.5 rounded w-[39vw]' onChange={(e) => { setAiDescription(e.target.value); }} id="aiDescription" placeholder="Describe how you used AI in your project!"></textarea>
                             </div>
 
@@ -260,8 +275,8 @@ const CreateProject = () => {
 
                     </div>
 
-                    <button className="bg-[var(--secondary)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative" onClick={() => handleProjectCreation(name, description, demo_url, code_url, realScreenshot, hackatime_project_name, id, type)}>Create Project</button>
-                    <button className="bg-[var(--secondary)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative m-2" onClick={() => router.push('/projects')}>Cancel</button>
+                    <button className="bg-[var(--red)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative" onClick={() => handleProjectCreation(name, description, demo_url, code_url, realScreenshot, hackatime_project_name, id, type, hours)}>Create Project</button>
+                    <button className="bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer text-white font-bold py-2 px-4 rounded relative m-2" onClick={() => router.push('/projects')}>Cancel</button>
 
                 </div>
             </>
