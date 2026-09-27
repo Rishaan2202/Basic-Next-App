@@ -89,6 +89,7 @@ export async function GET(request) {
                         event_details: {
                             pfp: slackData?.user?.profile?.image_original,
                             role: existingUser.event_details?.role || "Participant",
+                            country: existingUser.event_details?.country || "",
                             projects: existingUser.event_details?.projects || [],
                             activity: existingUser.event_details?.activity || {
                                 public: [{ message: "Successfull Login", timestamp: now }],
@@ -120,6 +121,7 @@ export async function GET(request) {
                     event_details: {
                         pfp: slackData?.user?.profile?.image_original,
                         role: "Participant",
+                        country: "",
                         projects: existingUser?.event_details?.projects || [],
                         activity: existingUser?.event_details?.activity || {
                             public: [{ message: "Successfull Login", timestamp: now }],
@@ -155,9 +157,16 @@ export async function GET(request) {
         console.log("User ID stored in cookie");
 
         const redirectUrl = new URL('/home', request.url);
-        return NextResponse.redirect(redirectUrl);
+        const onboardingUrl = new URL(`/onboarding/${userData.identity.id}`, request.url);
+
+        if (!existingUser || !existingUser.event_details?.country) {
+            return NextResponse.redirect(onboardingUrl);
+        } else {
+            return NextResponse.redirect(redirectUrl);
+        }
+
     }
     catch (error) {
-        return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
+            return NextResponse.json({ error: "An unexpected error occurred", details: error.message }, { status: 500 });
+        }
     }
-}

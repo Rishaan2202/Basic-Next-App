@@ -1,5 +1,7 @@
+"use client"
+
 import React from 'react'
-import { fetchProject } from './fetchProject';
+import { fetchProject } from '../../../actions/fetchProject';
 import Link from 'next/link';
 import '@/app/globals.css'
 
@@ -13,6 +15,8 @@ const page = async ({ params }) => {
   console.log("Project ID:", projectId);
   console.log("Type", typeof projectId);
   console.log("Project details:", project);
+
+  handleDelete = async () => {}
 
   if (!project) {
     return (
@@ -29,6 +33,7 @@ const page = async ({ params }) => {
       <p className='m-2 text-black'>{project.description}</p>
       <Link href={project.demo} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Demo</Link>
       <Link href={project.code} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Code</Link>
+      <Link href={`/projects/${id}/delete`} className='bg-[var(--secondary)] hover:bg-sky-600 m-2 text-white font-bold py-2 px-4 rounded'>Delete</Link>
     </div>
   )
 }
