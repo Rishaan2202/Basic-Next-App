@@ -18,10 +18,17 @@ export default function Page() {
         className='absolute left-0 h-auto-max-w-full'
       />
     </Link>
-    
-    <h1 className="absolute left-1/2 top-3/10 transform -translate-x-1/2 -translate-y-1/2 text-9xl font-bold hover:cursor-default">Hackalympics</h1>
-    <p className='absolute left-1/2 top-1/2 text-xl text-[var(--green)] transform -translate-x-1/2 -translate-y-1/2 w-fit font-bold hover:cursor-default'>A week long <span className='text-[var(--blue)]'>OLYMPICS</span> themed YSWS in <span className='text-[var(--red)]'>TOKYO</span>, <span className='text-[var(--yellow)]'>JAPAN</span></p>
-    <button><Link className='absolute text-xl left-1/2 top-[60vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--black)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
+
+    <Image
+      src='https://cdn.hackclub.com/01a0e2cf-921b-7f07-aa8e-0ca1ec226504/IMG_0204.jpeg'
+      alt='PCB Image'
+      width={250}
+      height={200}
+      className='absolute w-screen h-screen top-0 left-0 z-[-1]'
+    />
+
+    <p className='absolute left-1/2 top-17/24 text-xl text-[var(--green)] transform -translate-x-1/2 -translate-y-1/2 w-fit font-bold hover:cursor-default'>A week long <span className='text-[var(--blue)]'>OLYMPICS</span> themed YSWS in <span className='text-[var(--red)]'>TOKYO</span>, <span className='text-[var(--yellow)]'>JAPAN</span></p>
+    <button><Link className='absolute text-xl left-1/2 top-[80vh] transform -translate-x-1/2 -translate-y-1/5 bg-[var(--black)] m-2 p-2 w-[10vw] text-[var(--primary)] rounded hover:scale-[1.1]' href={`https://auth.hackclub.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile%20email%20name%20slack_id%20verification_status`}>Login</Link></button>
 
     <div className='bg-[var(--black)] w-[100vw] h-[250vh] absolute top-[100vh] left-0 z-[-1]'></div>
 
@@ -96,6 +103,33 @@ export default function Page() {
         <h2 className='text-5xl right-[1vw] relative top-[5vh] text-[var(--green)]'>Earn Currency!</h2>
 
       </div>
+
+      //Extra Assets I made!
+
+      {/* <Image
+          src='https://cdn.hackclub.com/01a0dd33-b9fc-7437-bec2-a29a7d5c8ebf/untitled_artwork.png'
+          alt='Arrow Image'
+          width={300}
+          height={200}
+          className='relative rounded'
+        /> */}
+
+      {/* <Image
+          src='https://cdn.hackclub.com/01a0dd33-fff5-7b0e-826e-40c6d4dbf938/untitled_artwork.png'
+          alt='Arrow Image'
+          width={300}
+          height={200}
+          className='relative rounded rotate-[90deg]'
+        /> */}
+
+      {/* <Image
+          src='https://cdn.hackclub.com/01a0dd34-36e7-7224-b124-9fef61ad9a57/untitled_artwork.png'
+          alt='Arrow Image'
+          width={300}
+          height={200}
+          className='relative rounded'
+        />   */}
+
     </div>
 
   </div>
