@@ -1,3 +1,5 @@
+    'use server'
+
     import { getDatabase } from "@/lib/mongodb";
 
     export async function fetchProject(projectId) {
