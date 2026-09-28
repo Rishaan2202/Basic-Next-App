@@ -11,7 +11,7 @@ const page = () => {
     return (
         <div className="absolute left-50 top-20">
             <h1>Projects</h1>
-            <button onClick={() => router.push('/projects/create')} className="bg-[var(--secondary)] p-2 rounded text-white hover:bg-[var(--tertiary)] hover:scale-[1.1] hover:cursor-pointer">+ Create Project</button>
+            <button onClick={() => router.push('/projects/create')} className="bg-[var(--red)] p-2 rounded text-white hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer">+ Create Project</button>
         </div>
     )
 }

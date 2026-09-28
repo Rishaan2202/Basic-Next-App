@@ -25,13 +25,13 @@ export default async function RootLayout({ children }) {
 
   const pfpDoc = userId
     ? await db.collection("userData").findOne(
-      { id: userId },
-      { projection: { "slack_details.user.profile.image_original": 1 } }
+      { user: userId },
+      { projection: { "event_details.pfp": 1 } }
     )
     : null;
   console.log("Profile picture document fetched from MongoDB:", pfpDoc);
 
-  const pfpUrl = pfpDoc?.slack_details?.user?.profile?.image_original || "https://cdn.hackclub.com/01a080a4-7b2c-794b-a1df-df9c1c93f62c/default_pfp.png"; // Fallback to a default profile picture if none is found
+  const pfpUrl = pfpDoc?.event_details?.pfp || "https://cdn.hackclub.com/01a080a4-7b2c-794b-a1df-df9c1c93f62c/default_pfp.png"; // Fallback to a default profile picture if none is found
   console.log("Profile picture URL to be used:", pfpUrl);
 
   return (
@@ -47,7 +47,9 @@ export default async function RootLayout({ children }) {
         <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/review">Review</Link></button>
         <button className="bg-[var(--yellow)] hover:bg-[var(--blue)] hover:scale-[1.1] m-2 p-2 rounded text-black"><Link href="/admin">Admin</Link></button>
       </div>
-      <img src={pfpUrl} alt="Profile" className="absolute top-[5vh] right-[2vw] w-10 h-10 rounded-full" />
+      <Link href="/about">
+        <img src={pfpUrl} alt="Profile" className="absolute top-[5vh] right-[2vw] w-10 h-10 rounded-full" />
+      </Link>
     </>
   );
 }
