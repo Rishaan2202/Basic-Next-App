@@ -2,7 +2,7 @@
 
 import React, { use, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { addCountry } from '@/app/actions/add_country';
+import { addOnboardInfo } from '@/app/actions/add_onboard_info'
 import '@/app/globals.css'
 
 const countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Congo (Democratic Republic)", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (Swaziland)", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast (Côte d'Ivoire)", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (Burma)", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City (Holy See)", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
@@ -13,7 +13,7 @@ const Onboarding = ({ params }) => {
 
     const [page, setPage] = useState(0)
     const [country, setCountry] = useState("")
-    const [error, setError] = useState(false)
+    const [intent, setIntent] = useState("")
 
     const { id } = use(params)
 
@@ -79,12 +79,31 @@ const Onboarding = ({ params }) => {
         return (
             <div className='fixed inset-0 grid place-items-center'>
                 <div className='flex flex-col items-center justify-centre bg-[var(--black)] text-[var(--blue)] w-fit p-3 rounded-lg'>
+                    <h1 className='text-5xl m-2'>What's your aim for Hackalympics</h1>
+                    <p className='text-xl text-[var(--red)]'>Are you planning to attend the hackathon, buy the prizes from the shop, or just exploring the website?</p>
+                    <select className='bg-[var(--green)] text-black rounded m-2 p-2 text-xl' onChange={(e) => setIntent(e.target.value)}>
+                        <option value="">Select your intent</option>
+                        <option value="hackathon">Hackathon</option>
+                        <option value="shop">Shop</option>
+                        <option value="exploring">Exploring</option>
+                    </select>
+                    <div className = 'flex'>
+                        <button className='bg-[var(--yellow)] w-[100px] text-black mt-4 m-2 p-2 rounded hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer' onClick={() => setPage(1)}>← Previous</button>
+                        <button className='bg-[var(--yellow)] w-[100px] text-black mt-4 m-2 p-2 rounded hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer' onClick={() => setPage(3)}>Next →</button>
+                    </div>
+                </div>
+            </div>
+        )
+    } else if (page === 3) {
+        return (
+            <div className='fixed inset-0 grid place-items-center'>
+                <div className='flex flex-col items-center justify-centre bg-[var(--black)] text-[var(--blue)] w-fit p-3 rounded-lg'>
                     <h1 className='text-5xl m-2'>Thanks!</h1>
                     <p className='text-xl text-[var(--red)]'>Great! Now you'll be making projects and earn points for {country}!</p>
                     <div>
-                        <button className='bg-[var(--yellow)] w-[100px] text-black mt-4 m-2 p-2 rounded hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer' onClick={() => setPage(1)}>← Previous</button>
+                        <button className='bg-[var(--yellow)] w-[100px] text-black mt-4 m-2 p-2 rounded hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer' onClick={() => setPage(2)}>← Previous</button>
                         <button className='bg-[var(--yellow)] w-[120px] text-black mt-4 m-2 p-2 rounded hover:bg-[var(--green)] hover:scale-[1.1] hover:cursor-pointer' onClick={() => {
-                            addCountry(id, country);
+                            addOnboardInfo(id, country, intent);
                             router.push('/home');
                         }}>Start Building</button>
                     </div>
