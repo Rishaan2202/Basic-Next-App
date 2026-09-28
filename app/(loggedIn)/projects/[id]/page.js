@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { fetchProject } from '@/app/actions/fetchProject';
+import { fetchProject } from '@/app/actions/fetch_project';
 import Link from 'next/link';
 import '@/app/globals.css'
 
